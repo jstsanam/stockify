@@ -1,0 +1,70 @@
+header {
+  background-color: #1871c2;
+  position: sticky;
+  top: 0;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+
+  #app-name-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    img {
+      object-fit: contain;
+      height: 2.5rem;
+      width: 2.5rem;
+      cursor: pointer;
+    }
+
+    h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+  }
+
+  #hamburger-menu {
+    color: #fff;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+  }
+
+  #header-buttons {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+
+    button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: large;
+      font-weight: 500;
+      padding: 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #fff;
+        color: #1871c2;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 415px) {
+  #header-buttons {
+    display: flex !important;
+  }
+
+  #hamburger-menu {
+    display: none;
+  }
+}
