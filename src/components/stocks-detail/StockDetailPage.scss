@@ -1,0 +1,15 @@
+#stock-detail-box {
+    display: flex;
+    justify-content: space-between;
+
+    #stock-graph {
+        width: 75%;
+        height: 100%;
+        border: 1px solid black;
+    }
+
+    #history-notification-box {
+        width: 25%;
+        border: 1px solid black;
+    }
+}

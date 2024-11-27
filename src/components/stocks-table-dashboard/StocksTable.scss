@@ -1,6 +1,6 @@
 #stocks-table {
   width: 80%;
-  height: 22rem;
+  height: 29rem;
   border: 2px solid black;
   border-radius: 1rem;
   display: flex;
@@ -11,6 +11,16 @@
     #table-head {
       border-bottom: 2px solid black;
     }
+  }
+}
+
+#table-cell {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: #468ccd;
+    text-decoration-thickness: 0.1rem;
+    text-decoration-skip-ink: none;
   }
 }
 
@@ -32,6 +42,6 @@
 @media screen and (max-width: 415px) {
   #stocks-table {
     width: 82%;
-    height: 30rem;
+    height: 35rem;
   }
 }

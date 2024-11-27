@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "./store/hook";
 import { fetchStocks } from "./store/slices/stockSlice";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
+import StockDetailPage from "./components/stocks-detail/StockDetailPage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,16 +16,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-        <Route
-          path="/dashboard"
-          element={
-            <>
-              <Header />
-              <Dashboard />
-            </>
-          }
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/:id" element={<StockDetailPage />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
