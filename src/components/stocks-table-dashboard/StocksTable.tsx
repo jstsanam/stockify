@@ -107,11 +107,11 @@ export default function StocksTable({ exploreOn }: StocksTableType) {
                       onClick={() => {
                         handleViewStockDetail(stock);
                       }}
-                      id="table-cell"
+                      id="table-cell-name"
                     >
                       {stock.stock_name}
                     </TableCell>
-                    <TableCell align="right">{stock.base_price}</TableCell>
+                    <TableCell align="right" id="table-cell-price">{stock.base_price}</TableCell>
                     <TableCell align="right">
                       {watchlist.find(
                         (findStock: any) => findStock === stock

@@ -1,15 +1,27 @@
-#stock-detail-box {
+.stock-detail-box {
     display: flex;
     justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
 
-    #stock-graph {
+    .stock-graph {
         width: 75%;
-        height: 100%;
-        border: 1px solid black;
     }
 
-    #history-notification-box {
+    .history-notification-box {
         width: 25%;
-        border: 1px solid black;
+        
+        .history, .notification {
+            border: 1px solid #000;
+        }
+
+        .history {
+            margin-bottom: 0.6rem;
+            height: 19rem;
+        }
+
+        .notification {
+            height: 16.2rem;
+        }
     }
 }
