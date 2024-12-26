@@ -16,7 +16,7 @@ export const fetchStocks = createAsyncThunk(
 );
 
 const stockSlice = createSlice({
-  name: "Stocks",
+  name: "stocks",
   initialState: { stocks: [], status: "", error: null },
   reducers: {},
   extraReducers: (builder) => {

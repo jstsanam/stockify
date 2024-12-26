@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import { useEffect } from "react";
 import { useAppDispatch } from "./store/hook";
 import { fetchStocks } from "./store/slices/stockSlice";
+import { portfolioTxns } from "./store/slices/portfolioTxnsSlice";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import StockDetailPage from "./components/stocks-detail/StockDetailPage";
 
@@ -12,6 +13,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchStocks());
+    dispatch(portfolioTxns());
   }, [dispatch]);
 
   return (

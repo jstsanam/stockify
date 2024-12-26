@@ -15,6 +15,11 @@
     justify-content: center;
     gap: 0.5rem;
     font-size: 1.2rem;
+
+    .stock-change-percentage {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
   }
 
   .stock_quantity {

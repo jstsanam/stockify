@@ -3,12 +3,15 @@ import { useAppSelector } from "../../store/hook";
 import StockDetailHeader from "./StockDetailHeader";
 import GraphContainer from "./GraphContainer";
 import { useEffect, useState } from "react";
+import HistoryTransactions from "./HistoryTransactions";
+import { getHistoryBuySell } from "../../services/api";
 
 export default function StockDetailPage() {
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
 
   const [price, setPrice] = useState<number>(0);
   const [percentageChange, setPercentageChange] = useState<number>(0);
+  const [historyBuySell, setHistoryBuySell] = useState<any>(null);
 
   function generateRandomPrice() {
     return Math.floor(Math.random() * 501);
@@ -34,8 +37,22 @@ export default function StockDetailPage() {
       setPercentageChange(calculatedPercentage);
 
       previousPrice = newPrice;
-    }, 1000);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
+  useEffect(() => {
+    const fetchHistoryBuySell = async () => {
+      try {
+        const data = await getHistoryBuySell("api/history");
+        const passedTransactions = data.filter((transaction: any) => transaction.status === "Passed");
+        setHistoryBuySell(passedTransactions);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchHistoryBuySell();
+    const interval = setInterval(fetchHistoryBuySell, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -50,7 +67,9 @@ export default function StockDetailPage() {
         <GraphContainer price={price} percentageChange={percentageChange} />
       </div>
       <div className="history-notification-box">
-        <div className="history">history</div>
+        <div className="history">
+          <HistoryTransactions historyBuySell={historyBuySell}/>
+        </div>
         <div className="notification">notification</div>
       </div>
     </div>
