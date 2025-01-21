@@ -18,9 +18,10 @@ import { useNavigate } from "react-router-dom";
 
 interface StocksTableType {
   exploreOn: boolean;
+  setCurrentStock: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function StocksTable({ exploreOn }: StocksTableType) {
+export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableType) {
   const navigate = useNavigate();
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -105,6 +106,7 @@ export default function StocksTable({ exploreOn }: StocksTableType) {
                       component="th"
                       scope="row"
                       onClick={() => {
+                        setCurrentStock(stock);
                         handleViewStockDetail(stock);
                       }}
                       id="table-cell-name"

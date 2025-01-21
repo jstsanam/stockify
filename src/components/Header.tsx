@@ -23,8 +23,8 @@ export default function Header() {
 
   return (
     <header>
-      <div id="app-name-logo">
-        <img src="logo.png" alt="logo" onClick={handleNavigateToDashboard} />
+      <div id="app-name-logo" onClick={handleNavigateToDashboard}>
+        <img src="/logo.png" alt="logo" />
         <h3>Real-Time Stock Market</h3>
       </div>
       <Button

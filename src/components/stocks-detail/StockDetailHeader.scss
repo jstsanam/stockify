@@ -23,7 +23,7 @@
   }
 
   .stock_quantity {
-    width: 16rem;
+    width: 16.1rem;
     text-align: center;
     font-size: 1.2rem;
   }
@@ -52,6 +52,10 @@
 #current-stock {
   display: flex;
   align-items: center;
+}
+
+.MuiPopover-paper {
+  height: 15rem !important;
 }
 
 .stock-logo {

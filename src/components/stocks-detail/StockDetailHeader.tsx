@@ -1,38 +1,55 @@
 import * as React from "react";
 import "./StockDetailHeader.scss";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { postHistoryBuySell } from "../../services/api";
+import { useAppSelector, useAppDispatch } from "../../store/hook";
+import {
+  postTransactionsHistory,
+  transactionsHistorySliceActions,
+} from "../../store/slices/transactionsHistorySlice";
+import { v4 as uuidv4 } from 'uuid';
 
 interface StockDetailHeaderType {
-  stocks: any;
   price: number;
   percentageChange: number;
+  currentStock: any;
+  setCurrentStock: React.Dispatch<React.SetStateAction<any>>;
+  setBars: React.Dispatch<React.SetStateAction<any>>;
+  setPrice: React.Dispatch<React.SetStateAction<number>>;
+  setPercentageChange: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function StockDetailHeader({
-  stocks,
   price,
   percentageChange,
+  currentStock,
+  setCurrentStock,
+  setBars,
+  setPrice,
+  setPercentageChange,
 }: StockDetailHeaderType) {
-  const { id } = useParams();
+  const stocks = useAppSelector((state: any) => state.stocks.stocks);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const stock = stocks.find((s: any) => s.stock_name === id);
-  const [currentStock, setCurrentStock] = React.useState<any>(
-    stock || stocks[0] || {}
-  );
 
   const [stockQuantity, setStockQuantity] = React.useState<number | string>("");
   const [userBalance, setUserBalance] = React.useState<number>(2000);
 
-  const handleChange = (event: any) => {
+  const sortedStocks = stocks
+    .slice()
+    .sort((a: any, b: any) => a.stock_name.localeCompare(b.stock_name));
+
+  const handleStockChange = (event: any) => {
     const selectedStock = stocks.find(
       (s: any) => s.stock_name === event.target.value
     );
     setCurrentStock(selectedStock);
+    setPrice(0);
+    setPercentageChange(0);
+    setBars([]);
     navigate(`/dashboard/${selectedStock.stock_name}`);
   };
 
@@ -76,6 +93,7 @@ export default function StockDetailHeader({
     }
 
     const transactionData = {
+      id: uuidv4(),
       stock_name: currentStock.stock_name,
       stock_symbol: currentStock.stock_symbol,
       stocksQuantity: stockQuantity,
@@ -86,7 +104,12 @@ export default function StockDetailHeader({
     };
 
     try {
-      await postHistoryBuySell("api/history", { transaction: transactionData });
+      await dispatch(
+        postTransactionsHistory({
+          transaction: transactionData,
+        })
+      );
+      dispatch(transactionsHistorySliceActions.addToTransactionsHistory(transactionData));
       console.log("Transaction posted:", transactionData);
     } catch (error) {
       console.error("Error posting transaction:", error);
@@ -100,9 +123,9 @@ export default function StockDetailHeader({
           <Select
             id="current-stock"
             value={currentStock.stock_name || ""}
-            onChange={handleChange}
+            onChange={handleStockChange}
           >
-            {stocks.map((s: any) => (
+            {sortedStocks.map((s: any) => (
               <MenuItem key={s.stock_name} value={s.stock_name}>
                 <div className="stock-logo">
                   {s.stock_name.substring(0, 3).toUpperCase()}
@@ -120,10 +143,12 @@ export default function StockDetailHeader({
       <div className="stock-price">
         <div>Price</div>
         <div style={{ color: percentageChange > 0 ? "#2f9e44" : "#e03131" }}>
-          {price} 
-          {percentageChange > 0 ? '\u2191' : '\u2193'}
+          {price}
+          {percentageChange > 0 ? "\u2191" : "\u2193"}
         </div>
-        <div className="stock-change-percentage">{percentageChange.toFixed(2)}%</div>
+        <div className="stock-change-percentage">
+          {percentageChange.toFixed(2)}%
+        </div>
       </div>
       <input
         type="text"

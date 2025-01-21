@@ -13,12 +13,12 @@ header {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 
     img {
       object-fit: contain;
       height: 2.5rem;
       width: 2.5rem;
-      cursor: pointer;
     }
 
     h3 {
