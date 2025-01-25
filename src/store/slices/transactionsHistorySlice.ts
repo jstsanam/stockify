@@ -49,10 +49,10 @@ export const postTransactionsHistory = createAsyncThunk(
 );
 
 interface Transaction {
-  id: string;
-  stock_name: any;
-  stock_symbol: any;
-  stocksQuantity: string | number;
+  transaction_id: string;
+  stock_name: string;
+  stock_symbol: string;
+  stocksQuantity: number | string;
   timestamp: string;
   transaction_price: number;
   type: string;
@@ -60,12 +60,14 @@ interface Transaction {
 }
 
 interface TransactionsHistoryState {
+  transactions: Transaction[];
   passedTransactions: Transaction[];
   status: string;
   error: string | null;
 }
 
 const initialState: TransactionsHistoryState = {
+  transactions: [],
   passedTransactions: [],
   status: "",
   error: null,
@@ -77,7 +79,7 @@ const transactionsHistorySlice = createSlice({
   reducers: {
     addToTransactionsHistory(state, action: PayloadAction<Transaction>) {
       const existingTransaction = state.passedTransactions.find(
-        (transaction: any) => transaction.id === action.payload.id
+        (transaction: any) => transaction.id === action.payload.transaction_id
       );
       if (!existingTransaction && action.payload.status === "Passed")
         state.passedTransactions.push(action.payload);
@@ -96,6 +98,8 @@ const transactionsHistorySlice = createSlice({
           const passedTransactions = transactions.filter(
             (transaction: any) => transaction.status === "Passed"
           );
+
+          state.transactions = transactions;
           state.passedTransactions = passedTransactions;
         }
       )

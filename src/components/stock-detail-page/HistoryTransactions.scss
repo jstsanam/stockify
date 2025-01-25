@@ -1,9 +1,21 @@
 .history-box {
   padding: 0.8rem;
 
-  .history-title {
-    font-size: 1.2rem;
+  .history-header {
     margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .history-title {
+      font-size: 1.2rem;
+    }
+
+    .user-balance {
+      background-color: rgb(199, 229, 250);
+      padding: 0.2rem 0.5rem;
+      border-radius: 10rem;
+    }
   }
 
   .history-stocks {

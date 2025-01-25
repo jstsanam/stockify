@@ -8,16 +8,30 @@ import Button from "@mui/material/Button";
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl);
+
+  const handleShowMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   const handleNavigateToDashboard = () => {
     navigate("/dashboard");
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleShowMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleNavigateToProfile = () => {
+    navigate("/my-profile");
+    setAnchorEl(null);
   };
-  const handleClose = () => {
+
+  const handleNavigateToPortfolio = () => {
+    navigate("/my-portfolio");
     setAnchorEl(null);
   };
 
@@ -40,17 +54,17 @@ export default function Header() {
         id="hamburger-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
         MenuListProps={{
           "aria-labelledby": "hamburger-menu",
         }}
       >
-        <MenuItem onClick={handleClose}>Summarizer</MenuItem>
-        <MenuItem onClick={handleClose}>My Portfolio</MenuItem>
+        <MenuItem onClick={handleNavigateToProfile}>My Profile</MenuItem>
+        <MenuItem onClick={handleNavigateToPortfolio}>My Portfolio</MenuItem>
       </Menu>
       <div id="header-buttons">
-        <button>Summarizer</button>
-        <button>My Portfolio</button>
+        <button onClick={handleNavigateToProfile}>My Profile</button>
+        <button onClick={handleNavigateToPortfolio}>My Portfolio</button>
       </div>
     </header>
   );

@@ -5,29 +5,32 @@ import { fetchTransactionsHistory } from "../../store/slices/transactionsHistory
 
 interface HistoryTransactionsType {
   stockId: string | undefined;
+  userBalance: number;
 }
 
 export default function HistoryTransactions({
   stockId,
+  userBalance,
 }: HistoryTransactionsType) {
   const dispatch = useAppDispatch();
 
-  const transactions = useAppSelector(
+  const passedTransactions = useAppSelector(
     (state: any) => state.transactionsHistory.passedTransactions
   );
-  const transactionsByStockName = transactions.filter(
-    (transaction: any) => transaction.stock_name === stockId
+  const transactionsByStockName = passedTransactions.filter(
+    (transaction: any) => transaction.transaction_id === stockId
   );
 
   useEffect(() => {
     dispatch(fetchTransactionsHistory());
   }, [dispatch]);
 
-  console.log(transactionsByStockName.length);
-
   return (
     <div className="history-box">
-      <div className="history-title">History</div>
+      <div className="history-header">
+        <div className="history-title">History</div>
+        <div className="user-balance">Balance: {userBalance}</div>
+      </div>
       <div className="history-stocks">
         {transactionsByStockName && transactionsByStockName.length === 0 ? (
           <div style={{ margin: "0.5rem", color: "rgba(0, 0, 0, 0.3)" }}>

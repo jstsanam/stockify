@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../store/hook";
+import { useAppSelector } from "../../../store/hook";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -76,7 +76,7 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
   }, [watchlist]);
 
   const handleViewStockDetail = (stock: any) => {
-    navigate(`/dashboard/${stock.stock_name}`);
+    navigate(`/dashboard/${stock._id}`);
   };
 
   return (

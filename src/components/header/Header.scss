@@ -6,8 +6,9 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 0.7rem;
-  padding-right: 0.7rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  z-index: 10;
 
   #app-name-logo {
     display: flex;
@@ -59,7 +60,7 @@ header {
   }
 }
 
-@media screen and (min-width: 415px) {
+@media screen and (min-width: 540px) {
   #header-buttons {
     display: flex !important;
   }

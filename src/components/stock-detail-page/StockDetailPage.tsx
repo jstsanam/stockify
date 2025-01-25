@@ -8,6 +8,8 @@ import { fetchStocks } from "../../store/slices/stockSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import Notifications from "./Notifications";
+import BackToDashboard from "../shared/BackToDashboard";
 
 interface StockDetailPageType {
   currentStock: any;
@@ -23,6 +25,7 @@ export default function StockDetailPage({
   const dispatch = useAppDispatch();
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
 
+  const [userBalance, setUserBalance] = useState<number>(2000);
   const [price, setPrice] = useState<number>(0);
   const [percentageChange, setPercentageChange] = useState<number>(0);
   const [bars, setBars] = useState<
@@ -37,7 +40,7 @@ export default function StockDetailPage({
 
   useEffect(() => {
     if (stocks && stocks.length !== 0 && id) {
-      const stock = stocks.find((s: any) => s.stock_name === id);
+      const stock = stocks.find((s: any) => s._id === id);
       if (stock) {
         setCurrentStock(stock);
         setPrice(0);
@@ -91,10 +94,6 @@ export default function StockDetailPage({
       </Box>
     );
 
-  const handleNavigateToDashboard = () => {
-    navigate("/dashboard");
-  };
-
   return (
     <>
       <div className="stock-detail-page">
@@ -107,6 +106,8 @@ export default function StockDetailPage({
             setBars={setBars}
             setPrice={setPrice}
             setPercentageChange={setPercentageChange}
+            userBalance={userBalance}
+            setUserBalance={setUserBalance}
           />
           <GraphContainer
             price={price}
@@ -117,14 +118,14 @@ export default function StockDetailPage({
         </div>
         <div className="history-notification-box">
           <div className="history">
-            <HistoryTransactions stockId={id} />
+            <HistoryTransactions stockId={id} userBalance={userBalance} />
           </div>
-          <div className="notification">notification</div>
+          <div className="notification">
+            <Notifications />
+          </div>
         </div>
       </div>
-      <button className="back-button" onClick={handleNavigateToDashboard}>
-        &#8592; Back to dashboard
-      </button>
+      <BackToDashboard />
     </>
   );
 }

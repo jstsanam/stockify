@@ -1,12 +1,16 @@
-import Header from "./components/Header";
+import Header from "./components/header/Header";
 import "./App.scss";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard-page/Dashboard";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-import StockDetailPage from "./components/stocks-detail/StockDetailPage";
+import StockDetailPage from "./components/stock-detail-page/StockDetailPage";
 import { useState } from "react";
+import Portfolio from "./components/my-portfolio-page/MyPortfolio";
+import MyProfile from "./components/my-profile-page/MyProfile";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const [currentStock, setCurrentStock] = useState<any>(null);
+
   return (
     <div className="body">
       <BrowserRouter>
@@ -25,8 +29,11 @@ function App() {
               />
             }
           />
+          <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/my-portfolio" element={<Portfolio />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

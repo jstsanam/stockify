@@ -10,7 +10,6 @@ import {
   postTransactionsHistory,
   transactionsHistorySliceActions,
 } from "../../store/slices/transactionsHistorySlice";
-import { v4 as uuidv4 } from 'uuid';
 
 interface StockDetailHeaderType {
   price: number;
@@ -20,6 +19,8 @@ interface StockDetailHeaderType {
   setBars: React.Dispatch<React.SetStateAction<any>>;
   setPrice: React.Dispatch<React.SetStateAction<number>>;
   setPercentageChange: React.Dispatch<React.SetStateAction<number>>;
+  userBalance: number;
+  setUserBalance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function StockDetailHeader({
@@ -30,13 +31,14 @@ export default function StockDetailHeader({
   setBars,
   setPrice,
   setPercentageChange,
+  userBalance,
+  setUserBalance
 }: StockDetailHeaderType) {
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [stockQuantity, setStockQuantity] = React.useState<number | string>("");
-  const [userBalance, setUserBalance] = React.useState<number>(2000);
 
   const sortedStocks = stocks
     .slice()
@@ -44,13 +46,13 @@ export default function StockDetailHeader({
 
   const handleStockChange = (event: any) => {
     const selectedStock = stocks.find(
-      (s: any) => s.stock_name === event.target.value
+      (s: any) => s._id === event.target.value
     );
     setCurrentStock(selectedStock);
     setPrice(0);
     setPercentageChange(0);
     setBars([]);
-    navigate(`/dashboard/${selectedStock.stock_name}`);
+    navigate(`/dashboard/${selectedStock._id}`);
   };
 
   const handleStockQuantityChange = (
@@ -93,7 +95,7 @@ export default function StockDetailHeader({
     }
 
     const transactionData = {
-      id: uuidv4(),
+      transaction_id: currentStock._id,
       stock_name: currentStock.stock_name,
       stock_symbol: currentStock.stock_symbol,
       stocksQuantity: stockQuantity,
@@ -110,7 +112,6 @@ export default function StockDetailHeader({
         })
       );
       dispatch(transactionsHistorySliceActions.addToTransactionsHistory(transactionData));
-      console.log("Transaction posted:", transactionData);
     } catch (error) {
       console.error("Error posting transaction:", error);
     }
@@ -122,11 +123,11 @@ export default function StockDetailHeader({
         <FormControl fullWidth>
           <Select
             id="current-stock"
-            value={currentStock.stock_name || ""}
+            value={currentStock._id || ""}
             onChange={handleStockChange}
           >
             {sortedStocks.map((s: any) => (
-              <MenuItem key={s.stock_name} value={s.stock_name}>
+              <MenuItem key={s._id} value={s._id}>
                 <div className="stock-logo">
                   {s.stock_name.substring(0, 3).toUpperCase()}
                 </div>
