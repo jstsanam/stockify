@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import PATH from "../constants/paths";
-import { Status } from "../constants/enums";
+import PATH from "../../constants/paths";
+import { Status, TransactionStatus } from "../../constants/enums";
 
 // Get API to fetch transactions history
 export const fetchTransactionsHistory = createAsyncThunk(
@@ -49,10 +49,10 @@ export const postTransactionsHistory = createAsyncThunk(
 );
 
 interface Transaction {
-  transaction_id: string;
+  stock_id: string;
   stock_name: string;
   stock_symbol: string;
-  stocksQuantity: number | string;
+  stocks_quantity: number | string;
   timestamp: string;
   transaction_price: number;
   type: string;
@@ -79,9 +79,9 @@ const transactionsHistorySlice = createSlice({
   reducers: {
     addToTransactionsHistory(state, action: PayloadAction<Transaction>) {
       const existingTransaction = state.passedTransactions.find(
-        (transaction: any) => transaction.id === action.payload.transaction_id
+        (transaction: any) => transaction.id === action.payload.stock_id
       );
-      if (!existingTransaction && action.payload.status === "Passed")
+      if (!existingTransaction && action.payload.status === TransactionStatus.PASSED)
         state.passedTransactions.push(action.payload);
     },
   },
@@ -96,7 +96,7 @@ const transactionsHistorySlice = createSlice({
           state.status = Status.SUCCESS;
           const transactions = action.payload;
           const passedTransactions = transactions.filter(
-            (transaction: any) => transaction.status === "Passed"
+            (transaction: any) => transaction.status === TransactionStatus.PASSED
           );
 
           state.transactions = transactions;

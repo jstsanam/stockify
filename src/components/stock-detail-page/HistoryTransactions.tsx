@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import "./HistoryTransactions.scss";
 import { fetchTransactionsHistory } from "../../store/slices/transactionsHistorySlice";
+import { TransactionType } from "../../constants/enums";
 
 interface HistoryTransactionsType {
   stockId: string | undefined;
@@ -18,7 +19,7 @@ export default function HistoryTransactions({
     (state: any) => state.transactionsHistory.passedTransactions
   );
   const transactionsByStockName = passedTransactions.filter(
-    (transaction: any) => transaction.transaction_id === stockId
+    (transaction: any) => transaction.stock_id === stockId
   );
 
   useEffect(() => {
@@ -44,16 +45,19 @@ export default function HistoryTransactions({
               <div key={index} className="history-stock">
                 <div>
                   <div>
-                    {item.stocksQuantity}{" "}
-                    {item.stocksQuantity == 1 ? "stock" : "stocks"}
+                    {item.stocks_quantity}{" "}
+                    {item.stocks_quantity == 1 ? "stock" : "stocks"}
                   </div>
                   <div className="stock-timestamp">
                     {" "}
-                    {new Date(item.timestamp).toUTCString()}
+                    {new Date(item.timestamp).toLocaleString()}
                   </div>
                 </div>
                 <div
-                  style={{ color: item.type === "Buy" ? "#2f9e44" : "#e03131" }}
+                  style={{
+                    color:
+                      item.type === TransactionType.BUY ? "#2f9e44" : "#e03131",
+                  }}
                 >
                   {item.type}
                 </div>

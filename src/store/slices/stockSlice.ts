@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import PATH from "../constants/paths";
-import { Status } from "../constants/enums";
+import PATH from "../../constants/paths";
+import { Status } from "../../constants/enums";
 
 export const fetchStocks = createAsyncThunk(
   "stocks/fetchingStocks",

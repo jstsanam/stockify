@@ -7,6 +7,8 @@ import { useState } from "react";
 import Portfolio from "./components/my-portfolio-page/MyPortfolio";
 import MyProfile from "./components/my-profile-page/MyProfile";
 import Footer from "./components/footer/Footer";
+import SignIn from "./components/signin-page/SignIn";
+import SignUp from "./components/signup-page/SignUp";
 
 function App() {
   const [currentStock, setCurrentStock] = useState<any>(null);
@@ -31,6 +33,8 @@ function App() {
           />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/my-portfolio" element={<Portfolio />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
         <Footer />

@@ -13,7 +13,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import TablePagination from "./TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 
 interface StocksTableType {
@@ -21,7 +21,10 @@ interface StocksTableType {
   setCurrentStock: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableType) {
+export default function StocksTable({
+  exploreOn,
+  setCurrentStock,
+}: StocksTableType) {
   const navigate = useNavigate();
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -113,7 +116,9 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
                     >
                       {stock.stock_name}
                     </TableCell>
-                    <TableCell align="right" id="table-cell-price">{stock.base_price}</TableCell>
+                    <TableCell align="right" id="table-cell-price">
+                      {stock.base_price}
+                    </TableCell>
                     <TableCell align="right">
                       {watchlist.find(
                         (findStock: any) => findStock === stock
@@ -126,7 +131,7 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
                             >
                               <CheckCircleIcon
                                 fontSize="inherit"
-                                color="primary"
+                                color="secondary"
                                 className="table-action-icons-group"
                               />
                             </button>
@@ -151,7 +156,7 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
                         >
                           <AddCircleOutlineIcon
                             fontSize="inherit"
-                            color="primary"
+                            color="secondary"
                             className="table-action-icons-group"
                           />
                         </button>
@@ -182,7 +187,7 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
                           >
                             <CheckCircleIcon
                               fontSize="inherit"
-                              color="primary"
+                              color="secondary"
                               className="table-action-icons-group"
                             />
                           </button>
@@ -215,16 +220,17 @@ export default function StocksTable({ exploreOn, setCurrentStock }: StocksTableT
           />
         </>
       ) : (
-        <Box
+        <Stack
           sx={{
+            color: "grey.500",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100%",
+            height: "40rem",
           }}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="secondary" />
+        </Stack>
       )}
     </TableContainer>
   );

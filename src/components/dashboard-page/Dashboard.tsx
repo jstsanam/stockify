@@ -24,7 +24,7 @@ export default function Dashboard({ setCurrentStock }: DashboardType) {
           className="dashboard-button"
           style={{
             textDecoration: exploreOn ? "underline" : "",
-            textDecorationColor: exploreOn ? "#468ccd" : "",
+            textDecorationColor: exploreOn ? "#DD88CF" : "",
             textDecorationThickness: exploreOn ? "0.2rem" : "",
           }}
         >
@@ -35,7 +35,7 @@ export default function Dashboard({ setCurrentStock }: DashboardType) {
           className="dashboard-button"
           style={{
             textDecoration: !exploreOn ? "underline" : "",
-            textDecorationColor: !exploreOn ? "#468ccd" : "",
+            textDecorationColor: !exploreOn ? "#DD88CF" : "",
             textDecorationThickness: !exploreOn ? "0.2rem" : "",
           }}
         >

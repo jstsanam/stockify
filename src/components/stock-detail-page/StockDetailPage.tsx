@@ -7,7 +7,7 @@ import HistoryTransactions from "./HistoryTransactions";
 import { fetchStocks } from "../../store/slices/stockSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Notifications from "./Notifications";
 import BackToDashboard from "../shared/BackToDashboard";
 
@@ -82,16 +82,17 @@ export default function StockDetailPage({
 
   if (!currentStock)
     return (
-      <Box
+      <Stack
         sx={{
+          color: "grey.500",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           height: "40rem",
         }}
       >
-        <CircularProgress />
-      </Box>
+        <CircularProgress color="secondary" />
+      </Stack>
     );
 
   return (

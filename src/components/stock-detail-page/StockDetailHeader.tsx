@@ -10,6 +10,7 @@ import {
   postTransactionsHistory,
   transactionsHistorySliceActions,
 } from "../../store/slices/transactionsHistorySlice";
+import { TransactionStatus, TransactionType } from "../../constants/enums";
 
 interface StockDetailHeaderType {
   price: number;
@@ -32,7 +33,7 @@ export default function StockDetailHeader({
   setPrice,
   setPercentageChange,
   userBalance,
-  setUserBalance
+  setUserBalance,
 }: StockDetailHeaderType) {
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const dispatch = useAppDispatch();
@@ -45,9 +46,7 @@ export default function StockDetailHeader({
     .sort((a: any, b: any) => a.stock_name.localeCompare(b.stock_name));
 
   const handleStockChange = (event: any) => {
-    const selectedStock = stocks.find(
-      (s: any) => s._id === event.target.value
-    );
+    const selectedStock = stocks.find((s: any) => s._id === event.target.value);
     setCurrentStock(selectedStock);
     setPrice(0);
     setPercentageChange(0);
@@ -75,43 +74,47 @@ export default function StockDetailHeader({
     }
 
     const transactionPrice = price * Number(stockQuantity);
-    let status = "Failed";
+    let status = TransactionStatus.FAILED;
 
-    if (type === "Buy") {
+    if (type === TransactionType.BUY) {
       if (userBalance >= transactionPrice) {
         setUserBalance(userBalance - transactionPrice);
-        status = "Passed";
+        status = TransactionStatus.PASSED;
         setStockQuantity("");
         alert("Stocks bought successfully!");
       } else {
         setStockQuantity("");
         alert("Insufficient balance for the transaction.");
       }
-    } else if (type === "Sell") {
+    } else if (type === TransactionType.SELL) {
       setUserBalance(userBalance + transactionPrice);
-      status = "Passed";
+      status = TransactionStatus.PASSED;
       setStockQuantity("");
       alert("Stocks sold successfully!");
     }
 
-    const transactionData = {
-      transaction_id: currentStock._id,
+    const transaction = {
+      stock_id: currentStock._id,
       stock_name: currentStock.stock_name,
       stock_symbol: currentStock.stock_symbol,
-      stocksQuantity: stockQuantity,
+      stocks_quantity: stockQuantity,
       timestamp: new Date().toISOString(),
       transaction_price: price,
       type: type,
-      status: status,
+      status: status
     };
 
     try {
       await dispatch(
         postTransactionsHistory({
-          transaction: transactionData,
+          transaction,
         })
       );
-      dispatch(transactionsHistorySliceActions.addToTransactionsHistory(transactionData));
+      dispatch(
+        transactionsHistorySliceActions.addToTransactionsHistory(
+          transaction
+        )
+      );
     } catch (error) {
       console.error("Error posting transaction:", error);
     }
@@ -158,10 +161,16 @@ export default function StockDetailHeader({
         value={stockQuantity}
         onChange={handleStockQuantityChange}
       />
-      <button className="buy-button" onClick={() => handleTransaction("Buy")}>
+      <button
+        className="buy-button"
+        onClick={() => handleTransaction(TransactionType.BUY)}
+      >
         Buy
       </button>
-      <button className="sell-button" onClick={() => handleTransaction("Sell")}>
+      <button
+        className="sell-button"
+        onClick={() => handleTransaction(TransactionType.SELL)}
+      >
         Sell
       </button>
     </div>
