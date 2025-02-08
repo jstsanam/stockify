@@ -1,14 +1,17 @@
 import * as React from "react";
 import "./Header.scss";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
+import { authSliceActions } from "../../store/slices/authSlice";
 
 export default function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state: any) => state.authentication.token);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -36,15 +39,18 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const notLoggedIn =
-    location.pathname === "/signin" || location.pathname === "/signup";
+  const handleLogout = () => {
+    dispatch(authSliceActions.logout());
+    navigate("/signin");
+    setAnchorEl(null);
+  };
 
   return (
     <header>
       <div id="app-name-logo" onClick={handleNavigateToDashboard}>
-        <img src="/logo.png" alt="logo" />
+        <img src="/logo.png"/>
       </div>
-      {!notLoggedIn && (
+      {token && (
         <>
           <Button
             id="hamburger-menu"
@@ -66,12 +72,17 @@ export default function Header() {
           >
             <MenuItem onClick={handleNavigateToProfile}>My Profile</MenuItem>
             <MenuItem onClick={handleNavigateToPortfolio}>
-              My Portfolio
+              Portfolio
             </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
           <div id="header-buttons">
             <button onClick={handleNavigateToProfile}>My Profile</button>
-            <button onClick={handleNavigateToPortfolio}>My Portfolio</button>
+            <button onClick={handleNavigateToPortfolio}>Portfolio</button>
+            <button>
+              <img src=""/>
+            </button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         </>
       )}

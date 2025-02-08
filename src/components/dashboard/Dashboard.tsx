@@ -17,14 +17,14 @@ export default function Dashboard({ setCurrentStock }: DashboardType) {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="dashboard-page">
       <div className="dashboard-button-group">
         <button
           onClick={() => setExploreOn(true)}
           className="dashboard-button"
           style={{
             textDecoration: exploreOn ? "underline" : "",
-            textDecorationColor: exploreOn ? "#DD88CF" : "",
+            textDecorationColor: exploreOn ? "#9c27b0" : "",
             textDecorationThickness: exploreOn ? "0.2rem" : "",
           }}
         >
@@ -35,7 +35,7 @@ export default function Dashboard({ setCurrentStock }: DashboardType) {
           className="dashboard-button"
           style={{
             textDecoration: !exploreOn ? "underline" : "",
-            textDecorationColor: !exploreOn ? "#DD88CF" : "",
+            textDecorationColor: !exploreOn ? "#9c27b0" : "",
             textDecorationThickness: !exploreOn ? "0.2rem" : "",
           }}
         >

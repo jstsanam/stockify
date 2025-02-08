@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import "./HistoryTransactions.scss";
-import { fetchTransactionsHistory } from "../../store/slices/transactionsHistorySlice";
-import { TransactionType } from "../../constants/enums";
+import { fetchTransactionsHistory } from "../../../store/slices/transactionsHistorySlice";
+import { TransactionType } from "../../../constants/enums";
 
 interface HistoryTransactionsType {
   stockId: string | undefined;

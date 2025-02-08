@@ -25,13 +25,13 @@ interface Stock {
 
 interface StocksState {
   stocks: Stock[];
-  status: string;
+  status: Status;
   error: string | null;
 }
 
 const initialState: StocksState = {
   stocks: [],
-  status: "",
+  status: Status.LOADING,
   error: null,
 };
 

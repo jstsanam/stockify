@@ -3,7 +3,7 @@ import BackToDashboard from "../shared/BackToDashboard";
 
 export default function MyProfile() {
   return (
-    <div>
+    <div className="my-profile-page">
       <BackToDashboard />
     </div>
   );

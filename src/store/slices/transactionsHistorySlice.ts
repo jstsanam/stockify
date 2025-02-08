@@ -62,14 +62,14 @@ interface Transaction {
 interface TransactionsHistoryState {
   transactions: Transaction[];
   passedTransactions: Transaction[];
-  status: string;
+  status: Status;
   error: string | null;
 }
 
 const initialState: TransactionsHistoryState = {
   transactions: [],
   passedTransactions: [],
-  status: "",
+  status: Status.LOADING,
   error: null,
 };
 
@@ -81,7 +81,10 @@ const transactionsHistorySlice = createSlice({
       const existingTransaction = state.passedTransactions.find(
         (transaction: any) => transaction.id === action.payload.stock_id
       );
-      if (!existingTransaction && action.payload.status === TransactionStatus.PASSED)
+      if (
+        !existingTransaction &&
+        action.payload.status === TransactionStatus.PASSED
+      )
         state.passedTransactions.push(action.payload);
     },
   },
@@ -96,7 +99,8 @@ const transactionsHistorySlice = createSlice({
           state.status = Status.SUCCESS;
           const transactions = action.payload;
           const passedTransactions = transactions.filter(
-            (transaction: any) => transaction.status === TransactionStatus.PASSED
+            (transaction: any) =>
+              transaction.status === TransactionStatus.PASSED
           );
 
           state.transactions = transactions;

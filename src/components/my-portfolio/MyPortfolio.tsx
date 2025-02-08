@@ -9,7 +9,7 @@ export default function Portfolio() {
 
   console.log("portfolio: ", transactions);
   return (
-    <div>
+    <div className="my-portfolio-page">
       <BackToDashboard />
     </div>
   );

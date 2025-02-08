@@ -1,14 +1,14 @@
 import "./StockDetailPage.scss";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import StockDetailHeader from "./StockDetailHeader";
-import GraphContainer from "./GraphContainer";
+import StockDetailHeader from "./header/StockDetailHeader";
+import GraphContainer from "./graph-container/GraphContainer";
 import { useEffect, useState } from "react";
-import HistoryTransactions from "./HistoryTransactions";
+import HistoryTransactions from "./transactions-history/HistoryTransactions";
 import { fetchStocks } from "../../store/slices/stockSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import Notifications from "./Notifications";
+import Notifications from "./notifications/Notifications";
 import BackToDashboard from "../shared/BackToDashboard";
 
 interface StockDetailPageType {

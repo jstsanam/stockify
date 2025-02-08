@@ -5,12 +5,12 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useAppSelector, useAppDispatch } from "../../store/hook";
+import { useAppSelector, useAppDispatch } from "../../../store/hook";
 import {
   postTransactionsHistory,
   transactionsHistorySliceActions,
-} from "../../store/slices/transactionsHistorySlice";
-import { TransactionStatus, TransactionType } from "../../constants/enums";
+} from "../../../store/slices/transactionsHistorySlice";
+import { TransactionStatus, TransactionType } from "../../../constants/enums";
 
 interface StockDetailHeaderType {
   price: number;
