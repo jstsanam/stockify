@@ -97,6 +97,7 @@ export default function StockDetailPage({
 
   return (
     <>
+      <BackToDashboard />
       <div className="stock-detail-page">
         <div className="stock-graph">
           <StockDetailHeader
@@ -126,7 +127,6 @@ export default function StockDetailPage({
           </div>
         </div>
       </div>
-      <BackToDashboard />
     </>
   );
 }

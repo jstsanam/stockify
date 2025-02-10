@@ -18,6 +18,7 @@ import SignUp from "./components/signup/SignUp";
 import { useAppDispatch, useAppSelector } from "./store/hook";
 import { authSliceActions } from "./store/slices/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { getUser } from "./store/slices/userSlice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ function App() {
     if (token) {
       try {
         validateToken(token);
+        dispatch(getUser(token));
       } catch (error) {
         console.error("Error decoding token:", error);
         dispatch(authSliceActions.logout());

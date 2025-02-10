@@ -1,5 +1,5 @@
 header {
-  background-color: #4B164C;
+  background-color: #4b164c;
   position: sticky;
   top: 0;
   height: 4rem;
@@ -29,12 +29,12 @@ header {
     border: none;
   }
 
-  #header-buttons {
+  .header-buttons {
     display: none;
     align-items: center;
     gap: 0.5rem;
 
-    button {
+    .all-transactions-button {
       background-color: transparent;
       color: #fff;
       border: none;
@@ -46,15 +46,25 @@ header {
 
       &:hover {
         background-color: #fff;
-        color: #4B164C;
+        color: #4b164c;
         font-weight: 600;
+      }
+    }
+
+    .user-dropdown-menu {
+      border-radius: 50%;
+      min-width: 1rem;
+
+      .user-image {
+        object-fit: contain;
+        width: 3rem;
       }
     }
   }
 }
 
 @media screen and (min-width: 540px) {
-  #header-buttons {
+  .header-buttons {
     display: flex !important;
   }
 

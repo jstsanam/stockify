@@ -7,22 +7,37 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { authSliceActions } from "../../store/slices/authSlice";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Logout } from "@mui/icons-material";
 
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = useAppSelector((state: any) => state.authentication.token);
+  const user = useAppSelector((state: any) => state.user.user);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [hamburgerMenu, setHamburgerMenu] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [userMenu, setUserMenu] = React.useState<null | HTMLElement>(null);
 
-  const open = Boolean(anchorEl);
+  const openHamburgerMenu = Boolean(hamburgerMenu);
+  const openUserMenu = Boolean(userMenu);
 
-  const handleShowMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleShowHamburgerMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setHamburgerMenu(e.currentTarget);
   };
 
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleCloseHamburgerMenu = () => {
+    setHamburgerMenu(null);
+  };
+
+  const handleShowUserMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setUserMenu(e.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setUserMenu(null);
   };
 
   const handleNavigateToDashboard = () => {
@@ -30,59 +45,88 @@ export default function Header() {
   };
 
   const handleNavigateToProfile = () => {
+    setHamburgerMenu(null);
+    setUserMenu(null);
     navigate("/my-profile");
-    setAnchorEl(null);
   };
 
   const handleNavigateToPortfolio = () => {
+    setHamburgerMenu(null);
     navigate("/my-portfolio");
-    setAnchorEl(null);
   };
 
   const handleLogout = () => {
+    setHamburgerMenu(null);
+    setUserMenu(null);
     dispatch(authSliceActions.logout());
     navigate("/signin");
-    setAnchorEl(null);
   };
 
   return (
     <header>
       <div id="app-name-logo" onClick={handleNavigateToDashboard}>
-        <img src="/logo.png"/>
+        <img src="/logo.png" />
       </div>
       {token && (
         <>
           <Button
             id="hamburger-menu"
-            aria-controls={open ? "hamburger-menu" : undefined}
+            aria-controls={openHamburgerMenu ? "hamburger-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleShowMenu}
+            aria-expanded={openHamburgerMenu ? "true" : undefined}
+            onClick={handleShowHamburgerMenu}
           >
             <MenuIcon />
           </Button>
           <Menu
             id="hamburger-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleCloseMenu}
+            anchorEl={hamburgerMenu}
+            open={openHamburgerMenu}
+            onClose={handleCloseHamburgerMenu}
             MenuListProps={{
               "aria-labelledby": "hamburger-menu",
             }}
           >
             <MenuItem onClick={handleNavigateToProfile}>My Profile</MenuItem>
-            <MenuItem onClick={handleNavigateToPortfolio}>
-              Portfolio
-            </MenuItem>
+            <MenuItem onClick={handleNavigateToPortfolio}>Portfolio</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
-          <div id="header-buttons">
-            <button onClick={handleNavigateToProfile}>My Profile</button>
-            <button onClick={handleNavigateToPortfolio}>Portfolio</button>
-            <button>
-              <img src=""/>
+          <div className="header-buttons">
+            <button
+              onClick={handleNavigateToPortfolio}
+              className="all-transactions-button"
+            >
+              All Transactions
             </button>
-            <button onClick={handleLogout}>Logout</button>
+            <Button
+              id="user-menu"
+              className="user-dropdown-menu"
+              color="secondary"
+              aria-controls={openUserMenu ? "user-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openUserMenu ? "true" : undefined}
+              onClick={handleShowUserMenu}
+            >
+              <img src={`/assets/${user?.user?.gender}.png`} className="user-image" />
+            </Button>
+            <Menu
+              id="user-menu"
+              anchorEl={userMenu}
+              open={openUserMenu}
+              onClose={handleCloseUserMenu}
+              MenuListProps={{
+                "aria-labelledby": "user-menu",
+              }}
+            >
+              <MenuItem onClick={handleNavigateToProfile}>
+                <AccountCircleIcon fontSize="small" style={{marginRight: "0.5rem"}}/>
+                My Profile
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <Logout fontSize="small" style={{marginRight: "0.5rem"}}/>
+                Logout
+              </MenuItem>
+            </Menu>
           </div>
         </>
       )}
