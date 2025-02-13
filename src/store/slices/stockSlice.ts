@@ -12,15 +12,15 @@ export const fetchStocks = createAsyncThunk(
       );
       return response.json();
     } catch (error) {
+      console.error("Error fetching stocks: ", error);
       throw error;
     }
   }
 );
 
-interface Stock {
+export interface Stock {
   base_price: number;
   stock_name: any;
-  stock_symbol: any;
 }
 
 interface StocksState {
@@ -35,7 +35,6 @@ const initialState: StocksState = {
   error: null,
 };
 
-
 const stockSlice = createSlice({
   name: "stocks",
   initialState,
@@ -45,10 +44,13 @@ const stockSlice = createSlice({
       .addCase(fetchStocks.pending, (state) => {
         state.status = Status.LOADING;
       })
-      .addCase(fetchStocks.fulfilled, (state, action: PayloadAction<Stock[]>) => {
-        state.status = Status.SUCCESS;
-        state.stocks = action.payload;
-      })
+      .addCase(
+        fetchStocks.fulfilled,
+        (state, action: PayloadAction<Stock[]>) => {
+          state.status = Status.SUCCESS;
+          state.stocks = action.payload;
+        }
+      )
       .addCase(fetchStocks.rejected, (state, action: PayloadAction<any>) => {
         state.status = Status.FAILED;
         state.error = action.payload || "Something went wrong!";

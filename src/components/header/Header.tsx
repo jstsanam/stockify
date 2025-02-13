@@ -14,7 +14,7 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = useAppSelector((state: any) => state.authentication.token);
-  const user = useAppSelector((state: any) => state.user.user);
+  const userProfile = useAppSelector((state: any) => state.userProfile.profile);
 
   const [hamburgerMenu, setHamburgerMenu] = React.useState<null | HTMLElement>(
     null
@@ -107,7 +107,7 @@ export default function Header() {
               aria-expanded={openUserMenu ? "true" : undefined}
               onClick={handleShowUserMenu}
             >
-              <img src={`/assets/${user?.user?.gender}.png`} className="user-image" />
+              <img src={`/assets/${userProfile?.gender}.png`} className="user-profile-image" />
             </Button>
             <Menu
               id="user-menu"

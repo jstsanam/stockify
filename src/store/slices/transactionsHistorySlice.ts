@@ -51,7 +51,6 @@ export const postTransactionsHistory = createAsyncThunk(
 interface Transaction {
   stock_id: string;
   stock_name: string;
-  stock_symbol: string;
   stocks_quantity: number | string;
   timestamp: string;
   transaction_price: number;

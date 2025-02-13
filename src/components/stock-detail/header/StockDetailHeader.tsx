@@ -96,7 +96,6 @@ export default function StockDetailHeader({
     const transaction = {
       stock_id: currentStock._id,
       stock_name: currentStock.stock_name,
-      stock_symbol: currentStock.stock_symbol,
       stocks_quantity: stockQuantity,
       timestamp: new Date().toISOString(),
       transaction_price: price,

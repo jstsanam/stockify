@@ -11,6 +11,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import { GenderType } from "../../constants/enums";
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
@@ -106,8 +107,8 @@ export default function SignUp() {
                 value={userData.gender}
                 onChange={genderSelect}
               >
-                <MenuItem value={"male"} color="secondary">Male</MenuItem>
-                <MenuItem value={"female"} color="secondary">Female</MenuItem>
+                <MenuItem value={GenderType.HE} color="secondary">Male</MenuItem>
+                <MenuItem value={GenderType.SHE} color="secondary">Female</MenuItem>
               </Select>
             </FormControl>
           </div>

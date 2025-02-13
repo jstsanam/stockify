@@ -7,7 +7,7 @@ export default function Portfolio() {
     (state: any) => state.transactionsHistory.transactions
   );
 
-  console.log("portfolio: ", transactions);
+  // console.log("portfolio: ", transactions);
   return (
     <div className="my-portfolio-page">
       <BackToDashboard />
