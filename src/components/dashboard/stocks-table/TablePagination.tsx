@@ -30,7 +30,7 @@ export default function TablePagination({
           count={Math.ceil(stocks.length / rowsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
-          color="primary"
+          color="secondary"
           className="table-pagination"
         />
       )}
@@ -39,7 +39,7 @@ export default function TablePagination({
           count={Math.ceil(watchlist.length / rowsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
-          color="primary"
+          color="secondary"
           className="table-pagination"
         />
       )}

@@ -1,0 +1,28 @@
+footer {
+  background-color: #F8E7F6;
+  margin-top: 2rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+
+  .footer-button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    .footer-buttons {
+      cursor: pointer;
+
+      .footer-button-image {
+        height: 2rem;
+        width: 2rem;
+        object-fit: contain;
+      }
+    }
+  }
+}
