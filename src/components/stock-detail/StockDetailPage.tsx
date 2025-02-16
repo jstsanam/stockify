@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hook";
 import StockDetailHeader from "./header/StockDetailHeader";
 import GraphContainer from "./graph-container/GraphContainer";
 import { useEffect, useState } from "react";
-import HistoryTransactions from "./transactions-history/HistoryTransactions";
+import UserTransactions from "./history/UserTransactions";
 import { fetchStocks } from "../../store/slices/stockSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -120,7 +120,7 @@ export default function StockDetailPage({
         </div>
         <div className="history-notification-box">
           <div className="history">
-            <HistoryTransactions stockId={id} userBalance={userBalance} />
+            <UserTransactions stockId={id} userBalance={userBalance} />
           </div>
           <div className="notification">
             <Notifications />

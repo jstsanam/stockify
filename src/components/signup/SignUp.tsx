@@ -68,7 +68,7 @@ export default function SignUp() {
   return (
     <div className="sign-up-area">
       <Card sx={{ boxShadow: 5 }} className="sign-up-box">
-        <img src="/logo.png" />
+        <img src="/logo.png" alt="App logo" />
         <div className="sign-up-heading">
           Sign Up to Begin Your Financial Growth Journey!
         </div>
@@ -94,11 +94,7 @@ export default function SignUp() {
               value={userData.name}
               onChange={addData}
             />
-            <FormControl
-              required
-              sx={{ minWidth: 162 }}
-              color="secondary"
-            >
+            <FormControl required sx={{ minWidth: 162 }} color="secondary">
               <InputLabel id="gender-select">Gender</InputLabel>
               <Select
                 labelId="gender-select"
@@ -107,8 +103,12 @@ export default function SignUp() {
                 value={userData.gender}
                 onChange={genderSelect}
               >
-                <MenuItem value={GenderType.HE} color="secondary">Male</MenuItem>
-                <MenuItem value={GenderType.SHE} color="secondary">Female</MenuItem>
+                <MenuItem value={GenderType.HE} color="secondary">
+                  Male
+                </MenuItem>
+                <MenuItem value={GenderType.SHE} color="secondary">
+                  Female
+                </MenuItem>
               </Select>
             </FormControl>
           </div>
