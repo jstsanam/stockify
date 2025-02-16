@@ -1,16 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import stockReducer from "./slices/stockSlice";
-import transactionsHistoryReducer from "./slices/transactionsHistorySlice";
-import authenticationReducer from "./slices/authSlice";
-import userReducer from "./slices/userSlice";
+import stockSliceReducer from "./slices/stockSlice";
+import authenticationSliceReducer from "./slices/authSlice";
+import profileSliceReducer from "./slices/user/profileSlice";
+import watchlistSliceReducer from "./slices/user/watchlistSlice";
+import transactionSliceReducer from "./slices/user/transactionsSlice";
 
 export const store = configureStore({
   reducer: {
-    stocks: stockReducer,
-    transactionsHistory: transactionsHistoryReducer,
-    authentication: authenticationReducer,
-    user: userReducer
-  }
+    stocks: stockSliceReducer,
+    authentication: authenticationSliceReducer,
+    userProfile: profileSliceReducer,
+    userWatchlist: watchlistSliceReducer,
+    userTransactions: transactionSliceReducer
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

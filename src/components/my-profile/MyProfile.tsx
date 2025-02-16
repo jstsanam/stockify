@@ -6,17 +6,17 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import { updateUser } from "../../store/slices/userSlice";
+import { updateUserProfile } from "../../store/slices/user/profileSlice";
+import { GenderType } from "../../constants/enums";
 
 export default function MyProfile() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: any) => state.user.user);
-  const token = useAppSelector((state: any) => state.authentication.token);
+  const userProfile = useAppSelector((state: any) => state.userProfile.profile);
 
   const [userData, setUserData] = useState<any>({
-    name: user?.user?.name || "",
-    email: user?.user?.email || "",
-    gender: user?.user?.gender || "",
+    name: userProfile?.name || "",
+    email: userProfile?.email || "",
+    gender: userProfile?.gender || "",
   });
   const [errors, setErrors] = useState({
     name: false,
@@ -33,16 +33,16 @@ export default function MyProfile() {
   };
 
   useEffect(() => {
-    if (user?.user) {
+    if (userProfile) {
       setUserData({
-        name: user.user.name,
-        email: user.user.email,
-        gender: user.user.gender,
+        name: userProfile.name,
+        email: userProfile.email,
+        gender: userProfile.gender,
       });
     }
-  }, [user]);
+  }, [userProfile]);
 
-  const handleUpdate = async (e: React.FormEvent) => {
+  const handleUpdateUserProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -56,14 +56,11 @@ export default function MyProfile() {
     if (Object.values(newErrors).some((error) => error)) return;
 
     try {
-      await dispatch(updateUser({ token, userData }));
+      await dispatch(updateUserProfile(userData));
     } catch (error) {
-      console.error("Error updating user: ", error);
+      console.error("Error updating user profile: ", error);
     }
   };
-
-  console.log("user: ", user);
-  console.log("userData: ", userData);
 
   return (
     <>
@@ -76,35 +73,37 @@ export default function MyProfile() {
             sx={{ "& > :not(style)": { m: 1, width: "40ch" } }}
             noValidate
             autoComplete="off"
-            onSubmit={handleUpdate}
+            onSubmit={handleUpdateUserProfile}
             className="profile-textfield"
           >
             <div className="user-genders">
               <button
                 className="gender-buttons"
-                onClick={() => genderSelect("male")}
+                onClick={() => genderSelect(GenderType.HE)}
                 type="button"
               >
                 <img
                   src="/assets/male.png"
                   style={{
                     backgroundColor:
-                      userData.gender === "male" ? "#9c27b0" : "",
+                      userData.gender === GenderType.HE ? "#9c27b0" : "",
                   }}
+                  alt="Male logo"
                 />
                 <div className="gender-name">Male</div>
               </button>
               <button
                 className="gender-buttons"
-                onClick={() => genderSelect("female")}
+                onClick={() => genderSelect(GenderType.SHE)}
                 type="button"
               >
                 <img
                   src="/assets/female.png"
                   style={{
                     backgroundColor:
-                      userData.gender === "female" ? "#9c27b0" : "",
+                      userData.gender === GenderType.SHE ? "#9c27b0" : "",
                   }}
+                  alt="Female logo"
                 />
                 <div className="gender-name">Female</div>
               </button>
@@ -143,7 +142,7 @@ export default function MyProfile() {
               disabled={
                 userData.email.trim() === "" ||
                 userData.name.trim() === "" ||
-                JSON.stringify(user?.user) === JSON.stringify(userData)
+                JSON.stringify(userProfile) === JSON.stringify(userData)
               }
             >
               Save changes

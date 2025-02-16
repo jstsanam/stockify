@@ -6,11 +6,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useAppSelector, useAppDispatch } from "../../../store/hook";
-import {
-  postTransactionsHistory,
-  transactionsHistorySliceActions,
-} from "../../../store/slices/transactionsHistorySlice";
 import { TransactionStatus, TransactionType } from "../../../constants/enums";
+import { addUserTransaction } from "../../../store/slices/user/transactionsSlice";
 
 interface StockDetailHeaderType {
   price: number;
@@ -96,27 +93,17 @@ export default function StockDetailHeader({
     const transaction = {
       stock_id: currentStock._id,
       stock_name: currentStock.stock_name,
-      stock_symbol: currentStock.stock_symbol,
-      stocks_quantity: stockQuantity,
+      stock_quantity: stockQuantity,
       timestamp: new Date().toISOString(),
       transaction_price: price,
       type: type,
-      status: status
+      status: status,
     };
 
     try {
-      await dispatch(
-        postTransactionsHistory({
-          transaction,
-        })
-      );
-      dispatch(
-        transactionsHistorySliceActions.addToTransactionsHistory(
-          transaction
-        )
-      );
+      await dispatch(addUserTransaction(transaction));
     } catch (error) {
-      console.error("Error posting transaction:", error);
+      console.error("Error making user transaction:", error);
     }
   };
 
