@@ -1,17 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import stockSliceReducer from "./slices/stockSlice";
-import transactionsHistorySliceReducer from "./slices/transactionsHistorySlice";
 import authenticationSliceReducer from "./slices/authSlice";
 import profileSliceReducer from "./slices/user/profileSlice";
 import watchlistSliceReducer from "./slices/user/watchlistSlice";
+import transactionSliceReducer from "./slices/user/transactionsSlice";
 
 export const store = configureStore({
   reducer: {
     stocks: stockSliceReducer,
-    transactionsHistory: transactionsHistorySliceReducer,
     authentication: authenticationSliceReducer,
     userProfile: profileSliceReducer,
     userWatchlist: watchlistSliceReducer,
+    userTransactions: transactionSliceReducer
   },
 });
 

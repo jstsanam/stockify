@@ -35,7 +35,7 @@ export default function StocksTable({
 
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const userWatchlist = useAppSelector(
-    (state: any) => state.userWatchlist.watchlist.watchlist
+    (state: any) => state.userWatchlist.watchlist
   );
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -70,7 +70,7 @@ export default function StocksTable({
       const stockWithoutId = Object.fromEntries(
         Object.entries(stock).filter(([key]) => key !== "_id")
       );
-      await dispatch(addStockToUserWatchlist({ watchlist: [stockWithoutId] }));
+      await dispatch(addStockToUserWatchlist(stockWithoutId));
     } catch (error) {
       console.error("Error adding stock to watchlist: ", error);
     }
@@ -78,7 +78,7 @@ export default function StocksTable({
 
   const handleRemoveStockFromWatchlist = async (stock: any) => {
     try {
-      await dispatch(removeStockFromUserWatchlist({ watchlist: [stock] }));
+      await dispatch(removeStockFromUserWatchlist(stock));
     } catch (error) {
       console.error("Error removing stock from watchlist: ", error);
     }
@@ -96,7 +96,7 @@ export default function StocksTable({
 
   useEffect(() => {
     if (!exploreOn) {
-      const totalPages = Math.ceil(watchlist.length / rowsPerPage);
+      const totalPages = Math.ceil(watchlist?.length / rowsPerPage);
       if (currentPage > totalPages && totalPages > 0) {
         setCurrentPage(totalPages);
       }
