@@ -1,0 +1,14 @@
+#table-pagination-box {
+  margin: 1rem;
+  
+  .table-pagination {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .css-1bug3cd-MuiButtonBase-root-MuiPaginationItem-root {
+    min-width: 24px !important;
+  }
+}

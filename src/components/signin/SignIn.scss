@@ -1,0 +1,44 @@
+.sign-in-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46rem;
+
+  .sign-in-box {
+    width: 30rem;
+    text-align: center;
+    padding: 3rem;
+    margin: 4rem 0rem;
+
+    img {
+      object-fit: contain;
+      width: 20rem;
+    }
+
+    .sign-in-heading {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 3rem 0rem;
+    }
+
+    .sign-in-textfield {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .sign-in-button {
+        width: 84%;
+        height: 3rem;
+        margin-top: 1rem;
+      }
+    }
+
+    .new-account-link {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.1rem;
+      margin-top: 0.5rem;
+    }
+  }
+}

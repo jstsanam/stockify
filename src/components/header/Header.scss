@@ -1,0 +1,74 @@
+header {
+  background-color: #4b164c;
+  position: sticky;
+  top: 0;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  z-index: 10;
+
+  #app-name-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+      object-fit: contain;
+      height: 6rem;
+      width: 9rem;
+    }
+  }
+
+  #hamburger-menu {
+    color: #fff;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+  }
+
+  .header-buttons {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+
+    .all-transactions-button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #fff;
+        color: #4b164c;
+        font-weight: 600;
+      }
+    }
+
+    .user-dropdown-menu {
+      border-radius: 50%;
+      min-width: 1rem;
+
+      .user-profile-image {
+        object-fit: contain;
+        width: 3rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .header-buttons {
+    display: flex !important;
+  }
+
+  #hamburger-menu {
+    display: none;
+  }
+}

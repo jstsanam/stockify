@@ -1,0 +1,31 @@
+.stock-detail-page {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+    min-height: 34rem;
+
+    .stock-graph {
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .history-notification-box {
+        width: 25%;
+        
+        .history, .notification {
+            border: 1px solid #000;
+        }
+
+        .history {
+            margin-bottom: 0.6rem;
+            height: 20rem;
+        }
+
+        .notification {
+            height: 17.75rem;
+        }
+    }
+}
