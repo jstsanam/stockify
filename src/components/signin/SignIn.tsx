@@ -54,7 +54,7 @@ export default function SignIn() {
   return (
     <div className="sign-in-area">
       <Card sx={{ boxShadow: 5 }} className="sign-in-box">
-        <img src="/logo.png" />
+        <img src="/logo.png" alt="App logo" />
         <div className="sign-in-heading">
           Welcome Back! Sign In to Continue Growing Your Wealth.
         </div>

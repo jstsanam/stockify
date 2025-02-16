@@ -46,7 +46,6 @@ export const addStockToUserWatchlist = createAsyncThunk(
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return await response.json();
-      return 0;
     } catch (error) {
       console.error("Error adding stock to user watchlist: ", error);
       throw error;
@@ -81,23 +80,19 @@ export const removeStockFromUserWatchlist = createAsyncThunk(
   }
 );
 
-interface UserWatchlist {
-  watchlist: Stock[];
-}
-
 interface UserWatchlistResponse {
   message: string;
-  userWatchlist: UserWatchlist;
+  userWatchlist: Stock[];
 }
 
 interface UserState {
-  watchlist: UserWatchlist;
+  watchlist: Stock[];
   status: Status;
   error: string | null;
 }
 
 const initialState: UserState = {
-  watchlist: { watchlist: [] },
+  watchlist: [],
   status: Status.LOADING,
   error: null,
 };

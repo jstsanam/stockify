@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import { updateUserProfile } from "../../store/slices/user/profileSlice";
 import { GenderType } from "../../constants/enums";
 
-
 export default function MyProfile() {
   const dispatch = useAppDispatch();
   const userProfile = useAppSelector((state: any) => state.userProfile.profile);
@@ -89,6 +88,7 @@ export default function MyProfile() {
                     backgroundColor:
                       userData.gender === GenderType.HE ? "#9c27b0" : "",
                   }}
+                  alt="Male logo"
                 />
                 <div className="gender-name">Male</div>
               </button>
@@ -103,6 +103,7 @@ export default function MyProfile() {
                     backgroundColor:
                       userData.gender === GenderType.SHE ? "#9c27b0" : "",
                   }}
+                  alt="Female logo"
                 />
                 <div className="gender-name">Female</div>
               </button>
