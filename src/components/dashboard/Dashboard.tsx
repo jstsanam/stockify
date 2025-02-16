@@ -34,9 +34,9 @@ export default function Dashboard({ setCurrentStock }: DashboardType) {
           onClick={() => setExploreOn(false)}
           className="dashboard-button"
           style={{
-            textDecoration: !exploreOn ? "underline" : "",
-            textDecorationColor: !exploreOn ? "#9c27b0" : "",
-            textDecorationThickness: !exploreOn ? "0.2rem" : "",
+            textDecoration: exploreOn ? "" : "underline",
+            textDecorationColor: exploreOn ? "" : "#9c27b0",
+            textDecorationThickness: exploreOn ? "" : "0.2rem",
           }}
         >
           MY WATCHLIST

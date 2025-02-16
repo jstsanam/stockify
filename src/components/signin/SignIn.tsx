@@ -12,27 +12,24 @@ export default function SignIn() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [error, setError] = useState<boolean>(false);
-
+  const [signinError, setSigninError] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({
     email: false,
     password: false,
   });
 
   const addData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError(false);
+    setSigninError(false);
     setUserData({ ...userData, [e.target.id]: e.target.value });
     setErrors({ ...errors, [e.target.id]: false });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     let newErrors = {
@@ -49,7 +46,7 @@ export default function SignIn() {
       setUserData({ email: "", password: "" });
       navigate("/dashboard");
     } catch (error) {
-      setError(true);
+      setSigninError(true);
       setUserData({ email: "", password: "" });
     }
   };
@@ -57,7 +54,7 @@ export default function SignIn() {
   return (
     <div className="sign-in-area">
       <Card sx={{ boxShadow: 5 }} className="sign-in-box">
-        <img src="/logo.png" />
+        <img src="/logo.png" alt="App logo" />
         <div className="sign-in-heading">
           Welcome Back! Sign In to Continue Growing Your Wealth.
         </div>
@@ -97,7 +94,7 @@ export default function SignIn() {
             value={userData.password}
             onChange={addData}
           />
-          {error && (
+          {signinError && (
             <div style={{ color: "#db453d" }}>Incorrect Email or Password!</div>
           )}
           <Button
@@ -107,7 +104,7 @@ export default function SignIn() {
             size="large"
             type="submit"
             disabled={
-              error ||
+              signinError ||
               userData.email.trim() === "" ||
               userData.password.trim() === ""
             }

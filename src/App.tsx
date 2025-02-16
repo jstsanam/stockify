@@ -5,8 +5,7 @@ import {
   Route,
   Routes,
   BrowserRouter,
-  Navigate,
-  useNavigate,
+  Navigate
 } from "react-router-dom";
 import StockDetailPage from "./components/stock-detail/StockDetailPage";
 import { useEffect, useState } from "react";
@@ -18,6 +17,7 @@ import SignUp from "./components/signup/SignUp";
 import { useAppDispatch, useAppSelector } from "./store/hook";
 import { authSliceActions } from "./store/slices/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { getUserProfile } from "./store/slices/user/profileSlice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -28,7 +28,7 @@ function App() {
     const decoded: any = jwtDecode(token);
     const currentTime = Math.floor(Date.now() / 1000);
     if (decoded.exp < currentTime) {
-      console.log("Token expired");
+      console.warn("Token expired");
       dispatch(authSliceActions.logout());
     }
   };
@@ -37,6 +37,7 @@ function App() {
     if (token) {
       try {
         validateToken(token);
+        dispatch(getUserProfile());
       } catch (error) {
         console.error("Error decoding token:", error);
         dispatch(authSliceActions.logout());

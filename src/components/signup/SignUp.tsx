@@ -7,17 +7,23 @@ import { useState } from "react";
 import { useAppDispatch } from "../../store/hook";
 import { userSignup } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { GenderType } from "../../constants/enums";
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [signupError, setSignupError] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
     name: "",
     email: "",
+    gender: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({
     name: false,
     email: false,
@@ -25,13 +31,18 @@ export default function SignUp() {
   });
 
   const addData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupError(false);
     setUserData({ ...userData, [e.target.id]: e.target.value });
     setErrors({ ...errors, [e.target.id]: false });
   };
 
+  const genderSelect = (e: SelectChangeEvent<string>) => {
+    setSignupError(false);
+    setUserData({ ...userData, gender: e.target.value });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     let newErrors = {
@@ -45,16 +56,19 @@ export default function SignUp() {
     if (Object.values(newErrors).some((error) => error)) return;
 
     try {
-      await dispatch(userSignup({ userData }));
+      await dispatch(userSignup({ userData })).unwrap();
+      setUserData({ name: "", email: "", gender: "", password: "" });
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Error sending user data: ", error);
+      setSignupError(true);
+      setUserData({ name: "", email: "", gender: "", password: "" });
     }
   };
 
   return (
     <div className="sign-up-area">
       <Card sx={{ boxShadow: 5 }} className="sign-up-box">
-        <img src="/logo.png" />
+        <img src="/logo.png" alt="App logo" />
         <div className="sign-up-heading">
           Sign Up to Begin Your Financial Growth Journey!
         </div>
@@ -66,19 +80,38 @@ export default function SignUp() {
           onSubmit={handleSubmit}
           className="sign-up-textfield"
         >
-          <TextField
-            required
-            label="Name"
-            variant="outlined"
-            color="secondary"
-            id="name"
-            error={errors.name}
-            helperText={
-              errors.name ? "Name must be minimum 3 characters long" : ""
-            }
-            value={userData.name}
-            onChange={addData}
-          />
+          <div className="name-gender-row">
+            <TextField
+              required
+              label="Name"
+              variant="outlined"
+              color="secondary"
+              id="name"
+              error={errors.name}
+              helperText={
+                errors.name ? "Name must be minimum 3 characters long" : ""
+              }
+              value={userData.name}
+              onChange={addData}
+            />
+            <FormControl required sx={{ minWidth: 162 }} color="secondary">
+              <InputLabel id="gender-select">Gender</InputLabel>
+              <Select
+                labelId="gender-select"
+                id="gender"
+                label="Gender *"
+                value={userData.gender}
+                onChange={genderSelect}
+              >
+                <MenuItem value={GenderType.HE} color="secondary">
+                  Male
+                </MenuItem>
+                <MenuItem value={GenderType.SHE} color="secondary">
+                  Female
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           <TextField
             required
             label="Email"
@@ -107,6 +140,9 @@ export default function SignUp() {
             value={userData.password}
             onChange={addData}
           />
+          {signupError && (
+            <div style={{ color: "#db453d" }}>User already exists!</div>
+          )}
           <Button
             variant="contained"
             color="secondary"
@@ -114,9 +150,11 @@ export default function SignUp() {
             size="large"
             type="submit"
             disabled={
+              signupError ||
               userData.email.trim() === "" ||
               userData.password.trim() === "" ||
-              userData.name.trim() === ""
+              userData.name.trim() === "" ||
+              userData.gender.trim() === ""
             }
           >
             Sign Up
