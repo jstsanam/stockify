@@ -1,29 +1,33 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hook";
-import "./HistoryTransactions.scss";
-import { fetchTransactionsHistory } from "../../store/slices/transactionsHistorySlice";
-import { TransactionType } from "../../constants/enums";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import "./UserTransactions.scss";
+import { TransactionType } from "../../../constants/enums";
+import { getUserTransactions } from "../../../store/slices/user/transactionsSlice";
 
 interface HistoryTransactionsType {
   stockId: string | undefined;
   userBalance: number;
 }
 
-export default function HistoryTransactions({
+export default function UserTransactions({
   stockId,
   userBalance,
 }: HistoryTransactionsType) {
   const dispatch = useAppDispatch();
 
   const passedTransactions = useAppSelector(
-    (state: any) => state.transactionsHistory.passedTransactions
-  );
-  const transactionsByStockName = passedTransactions.filter(
-    (transaction: any) => transaction.stock_id === stockId
+    (state: any) => state.userTransactions.passedTransactions
   );
 
+  let transactionsByStockName;
+  if (passedTransactions) {
+    transactionsByStockName = passedTransactions.filter(
+      (transaction: any) => transaction.stock_id === stockId
+    );
+  }
+
   useEffect(() => {
-    dispatch(fetchTransactionsHistory());
+    dispatch(getUserTransactions());
   }, [dispatch]);
 
   return (
@@ -45,8 +49,8 @@ export default function HistoryTransactions({
               <div key={index} className="history-stock">
                 <div>
                   <div>
-                    {item.stocks_quantity}{" "}
-                    {item.stocks_quantity == 1 ? "stock" : "stocks"}
+                    {item.stock_quantity}{" "}
+                    {item.stock_quantity === 1 ? "stock" : "stocks"}
                   </div>
                   <div className="stock-timestamp">
                     {" "}

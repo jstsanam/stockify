@@ -1,14 +1,14 @@
 import "./StockDetailPage.scss";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import StockDetailHeader from "./StockDetailHeader";
-import GraphContainer from "./GraphContainer";
+import StockDetailHeader from "./header/StockDetailHeader";
+import GraphContainer from "./graph-container/GraphContainer";
 import { useEffect, useState } from "react";
-import HistoryTransactions from "./HistoryTransactions";
+import UserTransactions from "./history/UserTransactions";
 import { fetchStocks } from "../../store/slices/stockSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import Notifications from "./Notifications";
+import Notifications from "./notifications/Notifications";
 import BackToDashboard from "../shared/BackToDashboard";
 
 interface StockDetailPageType {
@@ -97,6 +97,7 @@ export default function StockDetailPage({
 
   return (
     <>
+      <BackToDashboard />
       <div className="stock-detail-page">
         <div className="stock-graph">
           <StockDetailHeader
@@ -119,14 +120,13 @@ export default function StockDetailPage({
         </div>
         <div className="history-notification-box">
           <div className="history">
-            <HistoryTransactions stockId={id} userBalance={userBalance} />
+            <UserTransactions stockId={id} userBalance={userBalance} />
           </div>
           <div className="notification">
             <Notifications />
           </div>
         </div>
       </div>
-      <BackToDashboard />
     </>
   );
 }

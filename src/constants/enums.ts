@@ -13,3 +13,8 @@ export enum TransactionType {
   BUY = "Buy",
   SELL = "Sell"
 }
+
+export enum GenderType {
+  HE = "male",
+  SHE = "female"
+}

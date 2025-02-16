@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,6 +15,11 @@ import TablePagination from "./TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
+import {
+  getUserWatchlist,
+  addStockToUserWatchlist,
+  removeStockFromUserWatchlist,
+} from "../../../store/slices/user/watchlistSlice";
 
 interface StocksTableType {
   exploreOn: boolean;
@@ -26,9 +31,15 @@ export default function StocksTable({
   setCurrentStock,
 }: StocksTableType) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
+  const userWatchlist = useAppSelector(
+    (state: any) => state.userWatchlist.watchlist
+  );
+
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [watchlist, setWatchList] = useState<any>([]);
+  const [watchlist, setWatchlist] = useState<any>(userWatchlist || []);
   const [hoveredStock, setHoveredStock] = useState<any>(null);
 
   // pagination
@@ -54,29 +65,47 @@ export default function StocksTable({
     indexOfLastRow
   );
 
-  const handleAddStock = (stock: any) => {
-    setWatchList((prevWatchList: any) => {
-      return [...prevWatchList, stock];
-    });
+  const handleAddStockToWatchlist = async (stock: any) => {
+    try {
+      const stockWithoutId = Object.fromEntries(
+        Object.entries(stock).filter(([key]) => key !== "_id")
+      );
+      await dispatch(addStockToUserWatchlist(stockWithoutId));
+    } catch (error) {
+      console.error("Error adding stock to watchlist: ", error);
+    }
   };
 
-  const handleRemoveStock = (stock: any) => {
-    const filteredWatchlist = watchlist.filter((s: any) => s !== stock);
-    setWatchList(filteredWatchlist);
-
-    const totalPages = Math.ceil(filteredWatchlist.length / rowsPerPage);
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
+  const handleRemoveStockFromWatchlist = async (stock: any) => {
+    try {
+      await dispatch(removeStockFromUserWatchlist(stock));
+    } catch (error) {
+      console.error("Error removing stock from watchlist: ", error);
     }
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [exploreOn]);
+    dispatch(getUserWatchlist());
+  }, [dispatch]);
 
   useEffect(() => {
-    console.log("Updated Watchlist: ", watchlist);
+    if (userWatchlist) {
+      setWatchlist(userWatchlist);
+    }
+  }, [userWatchlist]);
+
+  useEffect(() => {
+    if (!exploreOn) {
+      const totalPages = Math.ceil(watchlist?.length / rowsPerPage);
+      if (currentPage > totalPages && totalPages > 0) {
+        setCurrentPage(totalPages);
+      }
+    }
   }, [watchlist]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [exploreOn]);
 
   const handleViewStockDetail = (stock: any) => {
     navigate(`/dashboard/${stock._id}`);
@@ -121,7 +150,8 @@ export default function StocksTable({
                     </TableCell>
                     <TableCell align="right">
                       {watchlist.find(
-                        (findStock: any) => findStock === stock
+                        (findStock: any) =>
+                          findStock.stock_name === stock.stock_name
                       ) ? (
                         <>
                           {hoveredStock !== stock ? (
@@ -139,7 +169,9 @@ export default function StocksTable({
                             <button
                               className="table-action-buttons-group"
                               onMouseLeave={() => setHoveredStock(null)}
-                              onClick={() => handleRemoveStock(stock)}
+                              onClick={() =>
+                                handleRemoveStockFromWatchlist(stock)
+                              }
                             >
                               <CloseIcon
                                 fontSize="inherit"
@@ -151,7 +183,7 @@ export default function StocksTable({
                         </>
                       ) : (
                         <button
-                          onClick={() => handleAddStock(stock)}
+                          onClick={() => handleAddStockToWatchlist(stock)}
                           className="table-action-buttons-group"
                         >
                           <AddCircleOutlineIcon
@@ -195,7 +227,9 @@ export default function StocksTable({
                           <button
                             className="table-action-buttons-group"
                             onMouseLeave={() => setHoveredStock(null)}
-                            onClick={() => handleRemoveStock(stock)}
+                            onClick={() =>
+                              handleRemoveStockFromWatchlist(stock)
+                            }
                           >
                             <CloseIcon
                               fontSize="inherit"
