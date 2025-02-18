@@ -8,6 +8,9 @@ import Select from "@mui/material/Select";
 import { useAppSelector, useAppDispatch } from "../../../store/hook";
 import { TransactionStatus, TransactionType } from "../../../constants/enums";
 import { addUserTransaction } from "../../../store/slices/user/transactionsSlice";
+import { updateUserProfile } from "../../../store/slices/user/profileSlice";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 interface StockDetailHeaderType {
   price: number;
@@ -18,7 +21,8 @@ interface StockDetailHeaderType {
   setPrice: React.Dispatch<React.SetStateAction<number>>;
   setPercentageChange: React.Dispatch<React.SetStateAction<number>>;
   userBalance: number;
-  setUserBalance: React.Dispatch<React.SetStateAction<number>>;
+  stockId: string | undefined;
+  stockOwned: any;
 }
 
 export default function StockDetailHeader({
@@ -30,7 +34,8 @@ export default function StockDetailHeader({
   setPrice,
   setPercentageChange,
   userBalance,
-  setUserBalance,
+  stockId,
+  stockOwned,
 }: StockDetailHeaderType) {
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const dispatch = useAppDispatch();
@@ -41,6 +46,10 @@ export default function StockDetailHeader({
   const sortedStocks = stocks
     .slice()
     .sort((a: any, b: any) => a.stock_name.localeCompare(b.stock_name));
+
+  const basePriceByStockName = stocks.find(
+    (stock: any) => stock._id === stockId
+  );
 
   const handleStockChange = (event: any) => {
     const selectedStock = stocks.find((s: any) => s._id === event.target.value);
@@ -70,12 +79,22 @@ export default function StockDetailHeader({
       return;
     }
 
-    const transactionPrice = price * Number(stockQuantity);
+    const transactionPrice =
+      (basePriceByStockName?.base_price + price) * Number(stockQuantity);
     let status = TransactionStatus.FAILED;
 
     if (type === TransactionType.BUY) {
       if (userBalance >= transactionPrice) {
-        setUserBalance(userBalance - transactionPrice);
+        try {
+          const netBalance = (userBalance - transactionPrice).toFixed(2);
+          await dispatch(
+            updateUserProfile({
+              current_balance: netBalance,
+            })
+          );
+        } catch (error) {
+          console.error("Error updating user balance: ", error);
+        }
         status = TransactionStatus.PASSED;
         setStockQuantity("");
         alert("Stocks bought successfully!");
@@ -83,11 +102,23 @@ export default function StockDetailHeader({
         setStockQuantity("");
         alert("Insufficient balance for the transaction.");
       }
-    } else if (type === TransactionType.SELL) {
-      setUserBalance(userBalance + transactionPrice);
+    } else if (type === TransactionType.SELL && stockQuantity <= stockOwned?.quantity) {
+      try {
+        const netBalance = (userBalance + transactionPrice).toFixed(2);
+        await dispatch(
+          updateUserProfile({
+            current_balance: netBalance,
+          })
+        );
+      } catch (error) {
+        console.error("Error updating user balance: ", error);
+      }
       status = TransactionStatus.PASSED;
       setStockQuantity("");
       alert("Stocks sold successfully!");
+    } else {
+      setStockQuantity("");
+      alert("Insufficient stock holdings!");
     }
 
     const transaction = {
@@ -95,7 +126,7 @@ export default function StockDetailHeader({
       stock_name: currentStock.stock_name,
       stock_quantity: stockQuantity,
       timestamp: new Date().toISOString(),
-      transaction_price: price,
+      transaction_price: basePriceByStockName?.base_price + price,
       type: type,
       status: status,
     };
@@ -115,6 +146,7 @@ export default function StockDetailHeader({
             id="current-stock"
             value={currentStock._id || ""}
             onChange={handleStockChange}
+            color="secondary"
           >
             {sortedStocks.map((s: any) => (
               <MenuItem key={s._id} value={s._id}>
@@ -122,8 +154,8 @@ export default function StockDetailHeader({
                   {s.stock_name.substring(0, 3).toUpperCase()}
                 </div>
                 <div>
-                  {s.stock_name.length > 25
-                    ? s.stock_name.substring(0, 25) + "..."
+                  {s.stock_name.length > 18
+                    ? s.stock_name.substring(0, 18) + "..."
                     : s.stock_name}
                 </div>
               </MenuItem>
@@ -131,35 +163,44 @@ export default function StockDetailHeader({
           </Select>
         </FormControl>
       </Box>
+      <div className="stock-owned">
+        Holdings: {stockOwned?.quantity ? stockOwned.quantity : 0}
+      </div>
       <div className="stock-price">
         <div>Price</div>
         <div style={{ color: percentageChange > 0 ? "#2f9e44" : "#e03131" }}>
-          {price}
+          {basePriceByStockName?.base_price + price}
           {percentageChange > 0 ? "\u2191" : "\u2193"}
         </div>
         <div className="stock-change-percentage">
           {percentageChange.toFixed(2)}%
         </div>
       </div>
-      <input
-        type="text"
-        className="stock_quantity"
-        placeholder="Enter quantity"
+      <TextField
+        id="outlined-basic"
+        label="Enter quantity"
+        variant="outlined"
+        color="secondary"
         value={stockQuantity}
         onChange={handleStockQuantityChange}
       />
-      <button
-        className="buy-button"
+      <Button
+        variant="contained"
+        color="success"
         onClick={() => handleTransaction(TransactionType.BUY)}
+        className="buy-button"
       >
         Buy
-      </button>
-      <button
-        className="sell-button"
+      </Button>
+      <Button
+        variant="contained"
+        color="error"
         onClick={() => handleTransaction(TransactionType.SELL)}
+        className="sell-button"
+        disabled={!stockOwned?.quantity}
       >
         Sell
-      </button>
+      </Button>
     </div>
   );
 }

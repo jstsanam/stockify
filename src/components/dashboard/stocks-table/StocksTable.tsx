@@ -67,10 +67,7 @@ export default function StocksTable({
 
   const handleAddStockToWatchlist = async (stock: any) => {
     try {
-      const stockWithoutId = Object.fromEntries(
-        Object.entries(stock).filter(([key]) => key !== "_id")
-      );
-      await dispatch(addStockToUserWatchlist(stockWithoutId));
+      await dispatch(addStockToUserWatchlist(stock));
     } catch (error) {
       console.error("Error adding stock to watchlist: ", error);
     }
@@ -141,7 +138,7 @@ export default function StocksTable({
                         setCurrentStock(stock);
                         handleViewStockDetail(stock);
                       }}
-                      id="table-cell-name"
+                      className="table-cell-name"
                     >
                       {stock.stock_name}
                     </TableCell>
@@ -207,7 +204,15 @@ export default function StocksTable({
                       key={stock.stock_name}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        onClick={() => {
+                          setCurrentStock(stock);
+                          handleViewStockDetail(stock);
+                        }}
+                        className="table-cell-name"
+                      >
                         {stock.stock_name}
                       </TableCell>
                       <TableCell align="right">{stock.base_price}</TableCell>

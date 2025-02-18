@@ -62,14 +62,24 @@ interface Transaction {
   status: string;
 }
 
-interface UserTransactionsResponse {
+interface StockHolding {
+  stock_id: string;
+  stock_name: string;
+  quantity: number;
+}
+
+interface UserDataResponse {
   message: string;
-  userTransactions: Transaction[];
+  userData: {
+    transactions: Transaction[];
+    stockHoldings: StockHolding[];
+  };
 }
 
 interface UserState {
   transactions: Transaction[];
   passedTransactions: Transaction[];
+  stockHoldings: StockHolding[];
   status: Status;
   error: string | null;
 }
@@ -77,6 +87,7 @@ interface UserState {
 const initialState: UserState = {
   transactions: [],
   passedTransactions: [],
+  stockHoldings: [],
   status: Status.LOADING,
   error: null,
 };
@@ -92,9 +103,9 @@ const transactionsSlice = createSlice({
       })
       .addCase(
         getUserTransactions.fulfilled,
-        (state, action: PayloadAction<UserTransactionsResponse>) => {
+        (state, action: PayloadAction<UserDataResponse>) => {
           state.status = Status.SUCCESS;
-          const transactions = action.payload.userTransactions;
+          const transactions = action.payload.userData.transactions;
           const passedTransactions = transactions.filter(
             (transaction: any) =>
               transaction.status === TransactionStatus.PASSED
@@ -102,6 +113,7 @@ const transactionsSlice = createSlice({
 
           state.transactions = transactions;
           state.passedTransactions = passedTransactions;
+          state.stockHoldings = action.payload.userData.stockHoldings;
         }
       )
       .addCase(
@@ -116,9 +128,9 @@ const transactionsSlice = createSlice({
       })
       .addCase(
         addUserTransaction.fulfilled,
-        (state, action: PayloadAction<UserTransactionsResponse>) => {
+        (state, action: PayloadAction<UserDataResponse>) => {
           state.status = Status.SUCCESS;
-          const transactions = action.payload.userTransactions;
+          const transactions = action.payload.userData.transactions;
           const passedTransactions = transactions.filter(
             (transaction: any) =>
               transaction.status === TransactionStatus.PASSED
@@ -126,6 +138,7 @@ const transactionsSlice = createSlice({
 
           state.transactions = transactions;
           state.passedTransactions = passedTransactions;
+          state.stockHoldings = action.payload.userData.stockHoldings;
         }
       )
       .addCase(

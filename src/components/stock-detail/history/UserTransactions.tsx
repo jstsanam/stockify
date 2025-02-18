@@ -51,6 +51,8 @@ export default function UserTransactions({
                   <div>
                     {item.stock_quantity}{" "}
                     {item.stock_quantity === 1 ? "stock" : "stocks"}
+                    {item.type === TransactionType.BUY ? " bought at " : " sold at "}
+                    {item.transaction_price}
                   </div>
                   <div className="stock-timestamp">
                     {" "}

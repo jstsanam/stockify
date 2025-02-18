@@ -24,8 +24,15 @@ export default function StockDetailPage({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
+  const user = useAppSelector((state: any) => state.userProfile.profile);
+  const stockHoldings = useAppSelector((state: any) => state.userTransactions.stockHoldings);
 
-  const [userBalance, setUserBalance] = useState<number>(2000);
+  const stockOwnedByStockName = stockHoldings.find(
+    (stock: any) => stock.stock_id === id
+  );
+
+  const [userBalance, setUserBalance] = useState<number>(user?.current_balance || 0);
+  const [stockOwned, setStockOwned] = useState<any>(stockOwnedByStockName || undefined);
   const [price, setPrice] = useState<number>(0);
   const [percentageChange, setPercentageChange] = useState<number>(0);
   const [bars, setBars] = useState<
@@ -61,6 +68,18 @@ export default function StockDetailPage({
     const change = ((newPrice - oldPrice) / Math.abs(oldPrice)) * 100;
     return Math.max(-100, Math.min(100, change));
   }
+
+  useEffect(() => {
+    if (user) {
+      setUserBalance(user.current_balance);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (stockHoldings) {
+      setStockOwned(stockOwnedByStockName);
+    }
+  }, [stockHoldings, stockOwnedByStockName]);
 
   useEffect(() => {
     let previousPrice = 0;
@@ -109,7 +128,8 @@ export default function StockDetailPage({
             setPrice={setPrice}
             setPercentageChange={setPercentageChange}
             userBalance={userBalance}
-            setUserBalance={setUserBalance}
+            stockId={id}
+            stockOwned={stockOwned}
           />
           <GraphContainer
             price={price}

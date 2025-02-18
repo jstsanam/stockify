@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     gap: 0.6rem;
-    margin-top: 0.6rem;
+    margin: 0.6rem;
     min-height: 34rem;
 
     .stock-graph {
@@ -17,6 +17,7 @@
         
         .history, .notification {
             border: 1px solid #000;
+            border-radius: 0.3rem;
         }
 
         .history {
