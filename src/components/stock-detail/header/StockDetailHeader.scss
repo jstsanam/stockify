@@ -1,9 +1,11 @@
 .stock-detail-header {
   display: flex;
   gap: 0.6rem;
+  height: 3.5rem;
 
   .stocks-select {
-    width: 16rem;
+    width: 18rem;
+    height: 3.5rem;
     border: 1px solid #000;
     border-radius: 0.3rem;
   }
@@ -15,7 +17,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
   }
 
   .stock-price {
@@ -26,7 +27,6 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 1.2rem;
 
     .stock-change-percentage {
       font-size: 0.8rem;
@@ -34,9 +34,8 @@
     }
   }
 
-  .css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input {
-    width: 12rem;
-    height: 2rem !important;
+  .stock-quantity {
+    width: 8rem;
   }
 
   .buy-button, .sell-button {

@@ -102,7 +102,10 @@ export default function StockDetailHeader({
         setStockQuantity("");
         alert("Insufficient balance for the transaction.");
       }
-    } else if (type === TransactionType.SELL && stockQuantity <= stockOwned?.quantity) {
+    } else if (
+      type === TransactionType.SELL &&
+      stockQuantity <= stockOwned?.quantity
+    ) {
       try {
         const netBalance = (userBalance + transactionPrice).toFixed(2);
         await dispatch(
@@ -140,29 +143,26 @@ export default function StockDetailHeader({
 
   return (
     <div className="stock-detail-header">
-      <Box className="stocks-select">
-        <FormControl fullWidth>
-          <Select
-            id="current-stock"
-            value={currentStock._id || ""}
-            onChange={handleStockChange}
-            color="secondary"
-          >
-            {sortedStocks.map((s: any) => (
-              <MenuItem key={s._id} value={s._id}>
-                <div className="stock-logo">
-                  {s.stock_name.substring(0, 3).toUpperCase()}
-                </div>
-                <div>
-                  {s.stock_name.length > 18
-                    ? s.stock_name.substring(0, 18) + "..."
-                    : s.stock_name}
-                </div>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
+      <Select
+        id="current-stock"
+        value={currentStock._id || ""}
+        onChange={handleStockChange}
+        color="secondary"
+        className="stocks-select"
+      >
+        {sortedStocks.map((s: any) => (
+          <MenuItem key={s._id} value={s._id}>
+            <div className="stock-logo">
+              {s.stock_name.substring(0, 3).toUpperCase()}
+            </div>
+            <div>
+              {s.stock_name.length > 20
+                ? s.stock_name.substring(0, 20) + "..."
+                : s.stock_name}
+            </div>
+          </MenuItem>
+        ))}
+      </Select>
       <div className="stock-owned">
         Holdings: {stockOwned?.quantity ? stockOwned.quantity : 0}
       </div>
@@ -179,6 +179,7 @@ export default function StockDetailHeader({
       <TextField
         id="outlined-basic"
         label="Enter quantity"
+        className="stock-quantity"
         variant="outlined"
         color="secondary"
         value={stockQuantity}

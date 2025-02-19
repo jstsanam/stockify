@@ -8,7 +8,7 @@ export default function Footer() {
       </div>
       <div className="footer-button-group">
         <a
-          href="https://github.com/jstsanam/real-time-stock-market"
+          href="https://github.com/jstsanam/stockify"
           className="footer-buttons"
           target="_blank"
         >
