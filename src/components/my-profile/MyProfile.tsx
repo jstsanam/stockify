@@ -16,7 +16,7 @@ export default function MyProfile() {
   const [userData, setUserData] = useState<any>({
     name: userProfile?.name || "",
     email: userProfile?.email || "",
-    gender: userProfile?.gender || "",
+    gender: userProfile?.gender || ""
   });
   const [errors, setErrors] = useState({
     name: false,
@@ -30,6 +30,16 @@ export default function MyProfile() {
 
   const genderSelect = (e: string) => {
     setUserData({ ...userData, gender: e });
+  };
+
+  const isProfileUnchanged = () => {
+    const filteredUserProfile = {
+      name: userProfile.name,
+      email: userProfile.email,
+      gender: userProfile.gender
+    };
+  
+    return JSON.stringify(filteredUserProfile) === JSON.stringify(userData);
   };
 
   useEffect(() => {
@@ -142,7 +152,7 @@ export default function MyProfile() {
               disabled={
                 userData.email.trim() === "" ||
                 userData.name.trim() === "" ||
-                JSON.stringify(userProfile) === JSON.stringify(userData)
+                isProfileUnchanged()
               }
             >
               Save changes

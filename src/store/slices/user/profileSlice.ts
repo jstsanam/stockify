@@ -56,6 +56,7 @@ interface UserProfile {
   name: string;
   email: string;
   gender: string;
+  current_balance: number;
 }
 
 interface UserProfileResponse {
@@ -74,6 +75,7 @@ const initialState: UserState = {
     name: "",
     email: "",
     gender: "",
+    current_balance: 0
   },
   status: Status.LOADING,
   error: null,
