@@ -195,7 +195,7 @@ export default function StocksTable({
                 ))}
               {!exploreOn &&
                 (watchlist.length === 0 ? (
-                  <div style={{ margin: "1rem", color: "rgba(0, 0, 0, 0.3)" }}>
+                  <div style={{ margin: "1rem", color: "#a2a2a2" }}>
                     Stocks added from Explore section will appear here.
                   </div>
                 ) : (

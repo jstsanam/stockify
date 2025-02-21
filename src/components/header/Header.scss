@@ -34,23 +34,6 @@ header {
     align-items: center;
     gap: 0.5rem;
 
-    .all-transactions-button {
-      background-color: transparent;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.2rem;
-      font-weight: 500;
-      padding: 0.5rem;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #fff;
-        color: #4b164c;
-        font-weight: 600;
-      }
-    }
-
     .user-dropdown-menu {
       border-radius: 50%;
       min-width: 1rem;

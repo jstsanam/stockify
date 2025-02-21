@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./BackToDashboard.scss";
+import Button from "@mui/material/Button";
 
 export default function BackToDashboard() {
   const navigate = useNavigate();
@@ -9,8 +9,14 @@ export default function BackToDashboard() {
   };
 
   return (
-    <button className="back-button" onClick={handleNavigateToDashboard}>
+    <Button
+      onClick={handleNavigateToDashboard}
+      className="back-button"
+      variant="text"
+      color="secondary"
+      style={{margin: "0.6rem 0 0 0.6rem"}}
+    >
       &#8592; Back to dashboard
-    </button>
+    </Button>
   );
 }

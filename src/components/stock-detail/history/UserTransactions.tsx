@@ -33,12 +33,12 @@ export default function UserTransactions({
   return (
     <div className="history-box">
       <div className="history-header">
-        <div className="history-title">History</div>
+        <div className="history-title">HISTORY ⌛</div>
         <div className="user-balance">Balance: {userBalance}</div>
       </div>
       <div className="history-stocks">
         {transactionsByStockName && transactionsByStockName.length === 0 ? (
-          <div style={{ margin: "0.5rem", color: "rgba(0, 0, 0, 0.3)" }}>
+          <div style={{ marginLeft: "0.5rem", color: "#a2a2a2" }}>
             No transactions available for this stock.
           </div>
         ) : (

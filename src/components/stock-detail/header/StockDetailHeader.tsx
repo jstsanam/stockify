@@ -1,9 +1,7 @@
 import * as React from "react";
 import "./StockDetailHeader.scss";
 import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useAppSelector, useAppDispatch } from "../../../store/hook";
 import { TransactionStatus, TransactionType } from "../../../constants/enums";
