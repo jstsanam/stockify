@@ -1,0 +1,80 @@
+.filter-table {
+  background-color: #f8e7f6;
+  border: 2px solid #4b164c;
+  width: 25%;
+  border-radius: 1.3rem;
+  max-height: fit-content;
+
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+
+    .filter-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+  }
+
+  .divider {
+    margin: 0;
+    border: 1px solid #4b164c;
+    width: 100%;
+  }
+
+  .search-stock-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+
+    .search-stock {
+      width: 100%;
+      background-color: transparent;
+      padding: 0.8rem;
+      border: 0.5px solid #bfb2bd;
+      border-radius: 0.3rem;
+      font-size: 1rem;
+
+      &:focus-visible {
+        outline: 2px solid #9c27b0;
+      }
+
+      &::placeholder {
+        color: #635c62;
+      }
+    }
+  }
+
+  .date-pickers {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem;
+    gap: 0.6rem;
+
+    .date-field {
+      border-radius: 0.3rem;
+    }
+  }
+
+  .stocks-in-transactions {
+    padding-left: 0.6rem;
+    overflow-y: hidden;
+    max-height: 17.5rem;
+
+    &:hover {
+      overflow-y: scroll;
+    }
+
+    .stock-check-box {
+      display: block;
+    }
+  }
+
+  .transaction-status {
+    padding-left: 0.6rem;
+  }
+}

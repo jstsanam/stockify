@@ -1,0 +1,31 @@
+.no-transactions-available {
+  color: #a2a2a2;
+  min-height: 31rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.2rem;
+  margin: 1rem 6rem;
+  color: #757474;
+
+  .transaction-type {
+    display: block;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+  }
+}
+
+.all-transactions-page {
+  display: flex;
+  justify-content: space-between;
+  gap: 5rem;
+  margin: 0 6rem 1rem 6rem;
+  height: 32rem;
+  min-height: 34rem;
+}

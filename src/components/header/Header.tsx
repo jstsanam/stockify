@@ -52,7 +52,7 @@ export default function Header() {
 
   const handleNavigateToPortfolio = () => {
     setHamburgerMenu(null);
-    navigate("/my-portfolio");
+    navigate("/all-transactions");
   };
 
   const handleLogout = () => {
@@ -92,12 +92,9 @@ export default function Header() {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
           <div className="header-buttons">
-            <button
-              onClick={handleNavigateToPortfolio}
-              className="all-transactions-button"
-            >
+            <Button onClick={handleNavigateToPortfolio} color="secondary" variant="contained">
               All Transactions
-            </button>
+            </Button>
             <Button
               id="user-menu"
               className="user-dropdown-menu"

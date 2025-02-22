@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import StockDetailPage from "./components/stock-detail/StockDetailPage";
 import { useEffect, useState } from "react";
-import Portfolio from "./components/my-portfolio/MyPortfolio";
 import MyProfile from "./components/my-profile/MyProfile";
 import Footer from "./components/footer/Footer";
 import SignIn from "./components/signin/SignIn";
@@ -18,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "./store/hook";
 import { authSliceActions } from "./store/slices/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { getUserProfile } from "./store/slices/user/profileSlice";
+import AllTransactions from "./components/all-transactions/AllTransactions";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -85,11 +85,11 @@ function App() {
                 }
               />
               <Route
-                path="/my-portfolio"
+                path="/all-transactions"
                 element={
                   <>
                     <Header />
-                    <Portfolio />
+                    <AllTransactions />
                     <Footer />
                   </>
                 }

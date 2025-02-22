@@ -1,0 +1,41 @@
+.transactions-list {
+  width: 75%;
+  overflow-y: scroll;
+
+  .day-wise-transaction {
+    margin-bottom: 4rem;
+
+    .transaction-date {
+      color: #8b8b8c;
+      margin-bottom: 0.5rem;
+    }
+
+    .dotted-divider {
+      margin: 0;
+      border: 1px dashed #8b8b8c;
+    }
+
+    .transaction-in-day {
+      .transaction-detail {
+        display: grid;
+        grid-template-columns: 25rem 8rem 8rem 8rem 3rem;
+        column-gap: 1rem;
+        justify-items: start;
+        align-items: center;
+        padding: 1rem 0;
+
+        .transaction-type {
+          display: block;
+          width: 0.8rem;
+          height: 0.8rem;
+          border-radius: 50%;
+        }
+      }
+
+      .divider {
+        margin: 0;
+        border: 1px solid #8b8b8c;
+      }
+    }
+  }
+}
