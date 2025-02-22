@@ -10,6 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Notifications from "./notifications/Notifications";
 import BackToDashboard from "../../utils/BackToDashboardButton";
+import { getSocket } from "../../utils/socket";
 
 interface StockDetailPageType {
   currentStock: any;
@@ -23,16 +24,24 @@ export default function StockDetailPage({
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const socket = getSocket();
+  
   const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const user = useAppSelector((state: any) => state.userProfile.profile);
-  const stockHoldings = useAppSelector((state: any) => state.userTransactions.stockHoldings);
+  const stockHoldings = useAppSelector(
+    (state: any) => state.userTransactions.stockHoldings
+  );
 
   const stockOwnedByStockName = stockHoldings.find(
     (stock: any) => stock.stock_id === id
   );
 
-  const [userBalance, setUserBalance] = useState<number>(user?.current_balance || 0);
-  const [stockOwned, setStockOwned] = useState<any>(stockOwnedByStockName || undefined);
+  const [userBalance, setUserBalance] = useState<number>(
+    user?.current_balance || 0
+  );
+  const [stockOwned, setStockOwned] = useState<any>(
+    stockOwnedByStockName || undefined
+  );
   const [price, setPrice] = useState<number>(0);
   const [percentageChange, setPercentageChange] = useState<number>(0);
   const [bars, setBars] = useState<
@@ -99,6 +108,18 @@ export default function StockDetailPage({
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (id && user) {
+      socket.connect();
+      socket.emit("joinStockRoom", { stockId: id, username: user.name });
+
+      return () => {
+        socket.emit("leaveStockRoom", { stockId: id, username: user.name });
+        socket.disconnect();
+      };
+    }
+  }, [id, user]);
+
   if (!currentStock)
     return (
       <Stack
@@ -143,7 +164,7 @@ export default function StockDetailPage({
             <UserTransactions stockId={id} userBalance={userBalance} />
           </div>
           <div className="notification">
-            <Notifications />
+            <Notifications currentStock={currentStock}/>
           </div>
         </div>
       </div>

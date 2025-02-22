@@ -10,6 +10,7 @@ import { updateUserProfile } from "../../../store/slices/user/profileSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { showToast } from "../../../utils/ToastService";
+import { getSocket } from "../../../utils/socket";
 
 interface StockDetailHeaderType {
   price: number;
@@ -36,9 +37,14 @@ export default function StockDetailHeader({
   stockId,
   stockOwned,
 }: StockDetailHeaderType) {
-  const stocks = useAppSelector((state: any) => state.stocks.stocks);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const socket = getSocket();
+
+  const stocks = useAppSelector((state: any) => state.stocks.stocks);
+  const userName = useAppSelector(
+    (state: any) => state.userProfile.profile.name
+  );
 
   const [stockQuantity, setStockQuantity] = React.useState<number | string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -124,6 +130,16 @@ export default function StockDetailHeader({
       showToast("Insufficient stock holdings!", "warning");
     }
 
+    if (status === TransactionStatus.PASSED) {
+      socket.emit("stockTransaction", {
+        stockId: currentStock._id,
+        name: userName,
+        type: type,
+        stock_quantity: stockQuantity,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
     const transaction = {
       stock_id: currentStock._id,
       stock_name: currentStock.stock_name,
@@ -141,6 +157,8 @@ export default function StockDetailHeader({
     } catch (error) {
       console.error(error);
       showToast("Error making transaction!", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -193,6 +211,7 @@ export default function StockDetailHeader({
         color="success"
         onClick={() => handleTransaction(TransactionType.BUY)}
         className="buy-button"
+        disabled={loading}
       >
         Buy
       </Button>
@@ -201,7 +220,7 @@ export default function StockDetailHeader({
         color="error"
         onClick={() => handleTransaction(TransactionType.SELL)}
         className="sell-button"
-        disabled={!stockOwned?.quantity}
+        disabled={!stockOwned?.quantity || loading}
       >
         Sell
       </Button>
