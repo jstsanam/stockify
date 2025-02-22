@@ -7,4 +7,20 @@
     color: #4b164c;
     font-weight: 600;
   }
+
+  .notifications {
+    height: 16rem;
+    overflow: auto;
+
+    .notification-card {
+      border: 1px solid #000;
+      border-radius: 1rem;
+      padding: 0.5rem;
+      margin-bottom: 0.8rem;
+      margin-right: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 }
