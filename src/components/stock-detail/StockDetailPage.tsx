@@ -9,7 +9,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Notifications from "./notifications/Notifications";
-import BackToDashboard from "../shared/BackToDashboard";
+import BackToDashboard from "../../utils/BackToDashboardButton";
 
 interface StockDetailPageType {
   currentStock: any;

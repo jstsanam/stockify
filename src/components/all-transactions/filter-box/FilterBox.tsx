@@ -9,6 +9,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
+import { showToast } from "../../../utils/ToastService";
 
 interface FilterBoxType {
   stocksPresent: string[];
@@ -33,7 +34,7 @@ export default function FilterBox({
 
   const handleSetStartDate = (startDateValue: any) => {
     if (startDateValue && startDateValue > new Date()) {
-      alert("Cannot select a future date!");
+      showToast("Cannot select a future date!", "warning");
       return;
     }
     setStartDate(startDateValue);
@@ -41,7 +42,7 @@ export default function FilterBox({
 
   const handleSetEndDate = (endDateValue: any) => {
     if (endDateValue && endDateValue > new Date()) {
-      alert("Cannot select a future date!");
+      showToast("Cannot select a future date!", "warning");
       return;
     }
     setEndDate(endDateValue);

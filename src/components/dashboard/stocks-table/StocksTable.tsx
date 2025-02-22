@@ -20,6 +20,7 @@ import {
   addStockToUserWatchlist,
   removeStockFromUserWatchlist,
 } from "../../../store/slices/user/watchlistSlice";
+import { showToast } from "../../../utils/ToastService";
 
 interface StocksTableType {
   exploreOn: boolean;
@@ -41,6 +42,7 @@ export default function StocksTable({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [watchlist, setWatchlist] = useState<any>(userWatchlist || []);
   const [hoveredStock, setHoveredStock] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // pagination
   const rowsPerPage = 7;
@@ -66,18 +68,28 @@ export default function StocksTable({
   );
 
   const handleAddStockToWatchlist = async (stock: any) => {
+    setLoading(true);
     try {
       await dispatch(addStockToUserWatchlist(stock));
+      showToast("Added stock to your watchlist", "success");
     } catch (error) {
-      console.error("Error adding stock to watchlist: ", error);
+      console.error(error);
+      showToast("Error adding stock to watchlist!", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRemoveStockFromWatchlist = async (stock: any) => {
+    setLoading(true);
     try {
       await dispatch(removeStockFromUserWatchlist(stock));
+      showToast("Removed stock from your watchlist", "success");
     } catch (error) {
-      console.error("Error removing stock from watchlist: ", error);
+      console.error(error);
+      showToast("Error removing stock from watchlist!", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -169,6 +181,7 @@ export default function StocksTable({
                               onClick={() =>
                                 handleRemoveStockFromWatchlist(stock)
                               }
+                              disabled={loading}
                             >
                               <CloseIcon
                                 fontSize="inherit"
@@ -182,6 +195,7 @@ export default function StocksTable({
                         <button
                           onClick={() => handleAddStockToWatchlist(stock)}
                           className="table-action-buttons-group"
+                          disabled={loading}
                         >
                           <AddCircleOutlineIcon
                             fontSize="inherit"
@@ -235,6 +249,7 @@ export default function StocksTable({
                             onClick={() =>
                               handleRemoveStockFromWatchlist(stock)
                             }
+                            disabled={loading}
                           >
                             <CloseIcon
                               fontSize="inherit"
