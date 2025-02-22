@@ -92,7 +92,11 @@ export default function Header() {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
           <div className="header-buttons">
-            <Button onClick={handleNavigateToPortfolio} color="secondary" variant="contained">
+            <Button
+              onClick={handleNavigateToPortfolio}
+              color="secondary"
+              variant="contained"
+            >
               All Transactions
             </Button>
             <Button

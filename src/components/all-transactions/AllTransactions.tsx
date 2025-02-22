@@ -1,5 +1,5 @@
 import "./AllTransactions.scss";
-import BackToDashboard from "../shared/BackToDashboard";
+import BackToDashboard from "../../utils/BackToDashboardButton";
 import { useAppSelector, useAppDispatch } from "../../store/hook";
 import { useEffect, useState } from "react";
 import { getUserTransactions } from "../../store/slices/user/transactionsSlice";

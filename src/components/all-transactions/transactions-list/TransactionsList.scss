@@ -2,6 +2,13 @@
   width: 75%;
   overflow-y: scroll;
 
+  .no-transactions-found {
+    color: #a2a2a2;
+    min-height: 31rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
   .day-wise-transaction {
     margin-bottom: 4rem;
 

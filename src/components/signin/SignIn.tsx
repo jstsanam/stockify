@@ -7,12 +7,14 @@ import { useState } from "react";
 import { useAppDispatch } from "../../store/hook";
 import { userSignin } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { showToast } from "../../utils/ToastService";
 
 export default function SignIn() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [signinError, setSigninError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
     email: "",
     password: "",
@@ -41,13 +43,20 @@ export default function SignIn() {
 
     if (Object.values(newErrors).some((error) => error)) return;
 
+    setLoading(true);
+
     try {
       await dispatch(userSignin({ userData })).unwrap();
+      showToast("Welcome back 🙋🏻‍♀️", "default");
       setUserData({ email: "", password: "" });
       navigate("/dashboard");
     } catch (error) {
+      console.error(error);
       setSigninError(true);
+      showToast("Error logging in!", "error");
       setUserData({ email: "", password: "" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,10 +115,11 @@ export default function SignIn() {
             disabled={
               signinError ||
               userData.email.trim() === "" ||
-              userData.password.trim() === ""
+              userData.password.trim() === "" ||
+              loading
             }
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
         </Box>
         <div className="new-account-link">

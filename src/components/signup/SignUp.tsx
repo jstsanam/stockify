@@ -12,12 +12,14 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { GenderType } from "../../constants/enums";
+import { showToast } from "../../utils/ToastService";
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [signupError, setSignupError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
     name: "",
     email: "",
@@ -55,13 +57,20 @@ export default function SignUp() {
 
     if (Object.values(newErrors).some((error) => error)) return;
 
+    setLoading(true);
+
     try {
       await dispatch(userSignup({ userData })).unwrap();
+      showToast(`Welcome to Stockify ${userData.name} 🎉`, "default");
       setUserData({ name: "", email: "", gender: "", password: "" });
       navigate("/dashboard");
     } catch (error) {
+      console.error(error);
+      showToast("Error signing up!", "error");
       setSignupError(true);
       setUserData({ name: "", email: "", gender: "", password: "" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,10 +163,11 @@ export default function SignUp() {
               userData.email.trim() === "" ||
               userData.password.trim() === "" ||
               userData.name.trim() === "" ||
-              userData.gender.trim() === ""
+              userData.gender.trim() === "" ||
+              loading
             }
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign up"}
           </Button>
         </Box>
         <div className="existing-account-link">

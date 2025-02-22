@@ -1,5 +1,5 @@
 import "./MyProfile.scss";
-import BackToDashboard from "../shared/BackToDashboard";
+import BackToDashboard from "../../utils/BackToDashboardButton";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
@@ -8,11 +8,13 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import { updateUserProfile } from "../../store/slices/user/profileSlice";
 import { GenderType } from "../../constants/enums";
+import { showToast } from "../../utils/ToastService";
 
 export default function MyProfile() {
   const dispatch = useAppDispatch();
   const userProfile = useAppSelector((state: any) => state.userProfile.profile);
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
     name: userProfile?.name || "",
     email: userProfile?.email || "",
@@ -65,10 +67,16 @@ export default function MyProfile() {
 
     if (Object.values(newErrors).some((error) => error)) return;
 
+    setLoading(true);
+
     try {
       await dispatch(updateUserProfile(userData));
+      showToast("Profile updated successfully", "success");
     } catch (error) {
-      console.error("Error updating user profile: ", error);
+      console.error(error);
+      showToast("Error updating profile!", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,10 +160,11 @@ export default function MyProfile() {
               disabled={
                 userData.email.trim() === "" ||
                 userData.name.trim() === "" ||
-                isProfileUnchanged()
+                isProfileUnchanged() ||
+                loading
               }
             >
-              Save changes
+              {loading ? "Saving changes..." : " Save changes"}
             </Button>
           </Box>
         </Card>

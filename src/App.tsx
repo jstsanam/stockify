@@ -1,12 +1,7 @@
 import Header from "./components/header/Header";
 import "./App.scss";
 import Dashboard from "./components/dashboard/Dashboard";
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-  Navigate
-} from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import StockDetailPage from "./components/stock-detail/StockDetailPage";
 import { useEffect, useState } from "react";
 import MyProfile from "./components/my-profile/MyProfile";
@@ -18,6 +13,7 @@ import { authSliceActions } from "./store/slices/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { getUserProfile } from "./store/slices/user/profileSlice";
 import AllTransactions from "./components/all-transactions/AllTransactions";
+import { ToastService } from "./utils/ToastService";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -48,6 +44,7 @@ function App() {
   return (
     <div className="body">
       <BrowserRouter>
+        <ToastService />
         <Routes>
           {token ? (
             <>

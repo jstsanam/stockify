@@ -9,6 +9,7 @@ import { addUserTransaction } from "../../../store/slices/user/transactionsSlice
 import { updateUserProfile } from "../../../store/slices/user/profileSlice";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { showToast } from "../../../utils/ToastService";
 
 interface StockDetailHeaderType {
   price: number;
@@ -40,6 +41,7 @@ export default function StockDetailHeader({
   const navigate = useNavigate();
 
   const [stockQuantity, setStockQuantity] = React.useState<number | string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const sortedStocks = stocks
     .slice()
@@ -73,7 +75,7 @@ export default function StockDetailHeader({
 
   const handleTransaction = async (type: string) => {
     if (Number(stockQuantity) <= 0 || isNaN(Number(stockQuantity))) {
-      alert("Please enter a valid quantity.");
+      showToast("Please enter a valid quantity.", "warning");
       return;
     }
 
@@ -95,10 +97,10 @@ export default function StockDetailHeader({
         }
         status = TransactionStatus.PASSED;
         setStockQuantity("");
-        alert("Stocks bought successfully!");
+        showToast("Stocks bought successfully 🎉", "success");
       } else {
         setStockQuantity("");
-        alert("Insufficient balance for the transaction.");
+        showToast("Insufficient balance for the transaction!", "warning");
       }
     } else if (
       type === TransactionType.SELL &&
@@ -116,10 +118,10 @@ export default function StockDetailHeader({
       }
       status = TransactionStatus.PASSED;
       setStockQuantity("");
-      alert("Stocks sold successfully!");
+      showToast("Stocks sold successfully", "success");
     } else {
       setStockQuantity("");
-      alert("Insufficient stock holdings!");
+      showToast("Insufficient stock holdings!", "warning");
     }
 
     const transaction = {
@@ -132,10 +134,13 @@ export default function StockDetailHeader({
       status: status,
     };
 
+    setLoading(true);
+
     try {
       await dispatch(addUserTransaction(transaction));
     } catch (error) {
-      console.error("Error making user transaction:", error);
+      console.error(error);
+      showToast("Error making transaction!", "error");
     }
   };
 
